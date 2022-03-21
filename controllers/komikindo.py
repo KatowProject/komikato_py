@@ -1,13 +1,12 @@
 import json
+from json import tool
 import urllib
-import requests as req
+import tools
 from bs4 import BeautifulSoup
 baseURL = "https://komikindo.id/"
 
-r = req.Session()
-r.headers.update({'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'})
 def index(request):
-    response = r.get(baseURL)
+    response = tools.get(baseURL)
     
     resolve = {
         'status': 'success',
@@ -18,7 +17,7 @@ def index(request):
     return resolve
 
 def home(request):
-    response = r.get(baseURL)
+    response = tools.get(baseURL)
     soup = BeautifulSoup(response.text, 'html.parser')
     
     obj = {}
@@ -76,7 +75,7 @@ def home(request):
     return obj
 
 def daftar_komik(request, page):
-    response = r.get(baseURL + 'daftar-komik/page/' + str(page))
+    response = tools.get(baseURL + 'daftar-komik/page/' + str(page))
     soup = BeautifulSoup(response.text, 'html.parser')
     
     obj = {}
@@ -108,7 +107,7 @@ def daftar_komik(request, page):
     return obj
 
 def komik_terbaru(request, page):
-    response = r.get(baseURL + 'komik-terbaru/page/' + str(page))
+    response = tools.get(baseURL + 'komik-terbaru/page/' + str(page))
     soup = BeautifulSoup(response.text, 'html.parser')
     
     obj = {}
@@ -142,13 +141,13 @@ def komik_terbaru(request, page):
 def komik(request, type, page):
     response = None
     if (type == "manga"):
-        response = r.get(baseURL + 'manga/page/' + str(page))
+        response = tools.get(baseURL + 'manga/page/' + str(page))
     elif (type == "manhua"):
-        response = r.get(baseURL + 'manhua/page/' + str(page))
+        response = tools.get(baseURL + 'manhua/page/' + str(page))
     elif (type == "manhwa"):
-        response = r.get(baseURL + 'manhwa/page/' + str(page))
+        response = tools.get(baseURL + 'manhwa/page/' + str(page))
     elif (type == "smut"):
-        response = r.get(baseURL + 'konten/smut/page/' + str(page))
+        response = tools.get(baseURL + 'konten/smut/page/' + str(page))
     
     soup = BeautifulSoup(response.text, 'html.parser')
     
@@ -180,7 +179,7 @@ def komik(request, type, page):
     return obj
     
 def komik_detail(request, endpoint):
-    response = r.get(baseURL + endpoint)
+    response = tools.get(baseURL + endpoint)
     soup = BeautifulSoup(response.text, 'html.parser')
     
     obj = {}
@@ -223,7 +222,7 @@ def search(request, query):
     page = request.GET.get('page')
     if (page == None):
         page = 1
-    response = r.get(baseURL + 'page/' + str(page) + '/?' + urllib.parse.urlencode({'s': query}))
+    response = tools.get(baseURL + 'page/' + str(page) + '/?' + urllib.parse.urlencode({'s': query}))
     soup = BeautifulSoup(response.text, 'html.parser')
     
     obj = {}
@@ -258,14 +257,14 @@ def search(request, query):
     return obj
 
 def chapter(request, endpoint):
-    response = r.get(baseURL + endpoint)
+    response = tools.get(baseURL + endpoint)
     soup = BeautifulSoup(response.text, 'html.parser')
     
     obj = {}
     manga = soup.find("head")
     chapter_link = manga.find("link", {"type": "application/json"}).get("href")
     
-    reschap = r.get(chapter_link)
+    reschap = tools.get(chapter_link)
     res = json.loads(reschap.text)
     obj["title"] = res["title"]["rendered"]
     
