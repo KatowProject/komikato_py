@@ -12,6 +12,6 @@ def get(url, options={}):
         return response
     else:
         # url to base64
-        url_base64 = base64.b64encode(b"%s" % url)
+        url_base64 = base64.b64encode(url.encode('utf-8'))
         response = req.get("https://bypass.kato-rest.us/url/" + url_base64.decode('utf-8'))
         return response
