@@ -7,13 +7,13 @@ baseURL = "https://komikindo.id/"
 def index(request):
     response = r.get(baseURL)
     
-    resolve = json.dumps({
+    resolve = {
         'status': 'success',
         'message': 'Welcome to Komikindo API',
         'statusCode': response.status_code,
-    })
+    }
     
-    return json.dumps(resolve)
+    return resolve
 
 def home(request):
     response = r.get(baseURL)
@@ -71,7 +71,7 @@ def home(request):
                 obj["body"]["latest"].append({ 'name': name, 'thumb': thumb, 'link': link })
             continue
 
-    return json.dumps(obj)
+    return obj
 
 def daftar_komik(request, page):
     response = r.get(baseURL + 'daftar-komik/page/' + str(page))
@@ -103,7 +103,7 @@ def daftar_komik(request, page):
             
         obj["pagination"].append({'name': name, 'url': url, 'endpoint': endpoint })
 
-    return json.dumps(obj)
+    return obj
 
 def komik_terbaru(request, page):
     response = r.get(baseURL + 'komik-terbaru/page/' + str(page))
@@ -135,7 +135,7 @@ def komik_terbaru(request, page):
             
         obj["pagination"].append({'name': name, 'url': url, 'endpoint': endpoint })
 
-    return json.dumps(obj)
+    return obj
 
 def komik(request, type, page):
     response = None
@@ -173,7 +173,7 @@ def komik(request, type, page):
             
         obj["pagination"].append({'name': name, 'url': url, 'endpoint': endpoint })
 
-    return json.dumps(obj)
+    return obj
     
 def komik_detail(request, endpoint):
     response = r.get(baseURL + endpoint)
@@ -181,15 +181,13 @@ def komik_detail(request, endpoint):
     
     obj = {}
     manga = soup.find(class_="postbody")
-    obj["name"] = manga.find(class_="entry-title").text.replace("Komik ","")
-    obj["alters"] = manga.find(class_="spe").find_all("span")[0].text.split(": ")[1].split(", ")
+    obj["title"] = manga.find(class_="entry-title").text.replace("Komik ","")
+    obj["thumb"] = manga.find(class_="thumb").find("img").get("src").split("?")[0]
+    obj["alter"] = manga.find(class_="spe").find_all("span")[0].text.split(": ")[1].split(", ")
     obj["status"] = manga.find(class_="spe").find_all("span")[1].text.split(": ")[1]
     obj["author"] = manga.find(class_="spe").find_all("span")[2].text.split(": ")[1]
     obj["illustator"] = manga.find(class_="spe").find_all("span")[3].text.split(": ")[1]
     obj["grafis"] = manga.find(class_="spe").find_all("span")[4].text.split(": ")[1]
-    obj["tema"] = manga.find(class_="spe").find_all("span")[5].text.split(": ")[1]
-    obj["konten"] = manga.find(class_="spe").find_all("span")[6].text.split(": ")[1]
-    obj["type"] = manga.find(class_="spe").find_all("span")[7].text.split(": ")[1]
     obj["score"] = manga.find(itemprop="ratingValue").text
     
     obj["genres"] = []
@@ -215,7 +213,7 @@ def komik_detail(request, endpoint):
         obj["chapters"].append({ 'name': name, 'link': link })
         
     
-    return json.dumps(obj)
+    return obj
 
 def search(request, query):
     response = r.get(baseURL + '?' + urllib.parse.urlencode({'s': query}))
@@ -246,7 +244,7 @@ def search(request, query):
             
         obj["pagination"].append({'name': name, 'url': url, 'endpoint': endpoint })
     
-    return json.dumps(obj)
+    return obj
 
 def chapter(request, endpoint):
     response = r.get(baseURL + endpoint)
@@ -265,5 +263,20 @@ def chapter(request, endpoint):
     imgs = soupp.find_all("img")
     for img in imgs:
         obj["images"].append(img.get("src"))
-        
-    return json.dumps(obj)
+    
+    nav = soup.find("div", {"class": "navig"}).find(class_="nextprev")
+    obj["chapter"] = {}
+    
+    prev = nav.find(rel="prev")
+    if (prev == None):
+        obj["chapter"]["prev"] = None
+    else:
+        obj["chapter"]["prev"] = prev.get("href").replace(baseURL, "")
+    
+    nextq = nav.find(rel="next")
+    if (nextq == None):
+        obj["chapter"]["next"] = None
+    else:
+        obj["chapter"]["next"] = nextq.get("href").replace(baseURL, "")
+    
+    return obj

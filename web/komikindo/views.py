@@ -1,6 +1,11 @@
+import controllers.komikindo as komikindo
 from django.shortcuts import render
-from django.http import HttpResponse
 
 # Create your views here.
 def index(request):
-    return HttpResponse("<h1>Hello World</h1>")
+    mangas = komikindo.home(request)
+    return render(request, 'komikindo/index.html', context=mangas)
+
+def chapter(request, endpoint):
+    chapter = komikindo.chapter(request, endpoint)
+    return render(request, 'komikindo/chapter.html', context=chapter)
