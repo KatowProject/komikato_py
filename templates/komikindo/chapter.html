@@ -18,13 +18,13 @@
             <div class="row flex justify-content-center">
                 <div class="btn-group btn-group-toggle btn-group-lg btn-block">
                     {% if chapter.prev != None %}
-                        <a href='/komikindo/chapter{{chapter.prev}}' class='btn btn-outline-secondary'>Previous</a>
+                        <a href='/komikindo/chapter/{{chapter.prev}}' class='btn btn-outline-secondary'>Previous</a>
                     {% else %}
                         <a href='#' class='btn btn-outline-secondary disabled'>Previous</a>
                     {% endif %}
 
                     {% if chapter.next != None %}
-                        <a href='/komikindo/chapter{{chapter.next}}' class='btn btn-outline-secondary'>Next</a>
+                        <a href='/komikindo/chapter/{{chapter.next}}' class='btn btn-outline-secondary'>Next</a>
                     {% else %}
                         <a href='#' class='btn btn-outline-secondary disabled'>Next</a>
                     {% endif %}
@@ -45,13 +45,13 @@
             <div class="row flex justify-content-center">
                 <div class="btn-group btn-group-toggle btn-group-lg btn-block">
                     {% if chapter.prev != None %}
-                        <a href='/komikindo/chapter{{chapter.prev}}' class='btn btn-outline-secondary'>Previous</a>
+                        <a href='/komikindo/chapter/{{chapter.prev}}' class='btn btn-outline-secondary'>Previous</a>
                     {% else %}
                         <a href='#' class='btn btn-outline-secondary disabled'>Previous</a>
                     {% endif %}
 
                     {% if chapter.next != None %}
-                        <a href='/komikindo/chapter{{chapter.next}}' class='btn btn-outline-secondary'>Next</a>
+                        <a href='/komikindo/chapter/{{chapter.next}}' class='btn btn-outline-secondary'>Next</a>
                     {% else %}
                         <a href='#' class='btn btn-outline-secondary disabled'>Next</a>
                     {% endif %}

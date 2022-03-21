@@ -1,9 +1,11 @@
 import json
 import urllib
-import requests as r
+import requests as req
 from bs4 import BeautifulSoup
 baseURL = "https://komikindo.id/"
 
+r = req.Session()
+r.headers.update({'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'})
 def index(request):
     response = r.get(baseURL)
     
@@ -145,6 +147,8 @@ def komik(request, type, page):
         response = r.get(baseURL + 'manhua/page/' + str(page))
     elif (type == "manhwa"):
         response = r.get(baseURL + 'manhwa/page/' + str(page))
+    elif (type == "smut"):
+        response = r.get(baseURL + 'konten/smut/page/' + str(page))
     
     soup = BeautifulSoup(response.text, 'html.parser')
     
@@ -169,7 +173,7 @@ def komik(request, type, page):
         url = page.get("href")
         endpoint = None
         if (url):
-            endpoint = url.replace(baseURL, "")
+            endpoint = url.replace(baseURL, "").replace("konten/", "komikk/")
             
         obj["pagination"].append({'name': name, 'url': url, 'endpoint': endpoint })
 
@@ -216,7 +220,10 @@ def komik_detail(request, endpoint):
     return obj
 
 def search(request, query):
-    response = r.get(baseURL + '?' + urllib.parse.urlencode({'s': query}))
+    page = request.GET.get('page')
+    if (page == None):
+        page = 1
+    response = r.get(baseURL + 'page/' + str(page) + '/?' + urllib.parse.urlencode({'s': query}))
     soup = BeautifulSoup(response.text, 'html.parser')
     
     obj = {}
@@ -240,7 +247,11 @@ def search(request, query):
         url = page.get("href")
         endpoint = None
         if (url):
-            endpoint = url.replace(baseURL, "")
+            uri = url.split('/')
+            if (len(uri) >= 5):
+                 endpoint = f"search/{query}/?page={url.split('/')[4]}" 
+            else:
+                endpoint = f"search/{query}/?page=1" 
             
         obj["pagination"].append({'name': name, 'url': url, 'endpoint': endpoint })
     
