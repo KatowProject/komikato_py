@@ -19,3 +19,5 @@ def get(url, options={}):
                 url = url.replace("komikindo.id", "komikindo-id.translate.goog")
                 response = req.get(url + "?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=id", params=options)
                 return response
+        else :
+            return response
