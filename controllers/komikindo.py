@@ -178,6 +178,8 @@ def komik(request, type, page):
     return obj
     
 def komik_detail(request, endpoint):
+    prox = "https://komikindo-id.translate.goog/"
+    proxq = "?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=id"
     response = tools.get(baseURL + endpoint)
     soup = BeautifulSoup(response.text, 'html.parser')
     
@@ -208,10 +210,13 @@ def komik_detail(request, endpoint):
     chapters = manga.find(id="chapter_list").find_all(class_="lchx")
     for chapter in chapters:
         name = chapter.find("a").text
-        link = {
-            'url': chapter.find("a").get("href"),
-            'endpoint': chapter.find("a").get("href").replace(baseURL, "")
-        }
+        url = chapter.find("a").get("href")
+        endpoint = None
+        if ("komikindo-id" in url):
+            endpoint = url.replace(prox, "").replace(proxq, "")
+        else:
+            endpoint = url.replace(baseURL, "")
+        link = { 'url': url, 'endpoint': endpoint }
         obj["chapters"].append({ 'name': name, 'link': link })
         
     
