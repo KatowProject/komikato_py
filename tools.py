@@ -14,7 +14,7 @@ def get(url, options={}):
     else:
         url_base64 = base64.b64encode(url.encode('utf-8'))
         response = req.get("https://bypass.kato-rest.us/url/" + url_base64.decode('utf-8'))
-        if (response.status_code == 200 and json.loads(response.text)['status'] == 'error'):
+        if (response.status_code == 500):
             if "komikindo" in url:
                 url = url.replace("komikindo.id", "komikindo-id.translate.goog")
                 response = req.get(url + "?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=id", params=options)
