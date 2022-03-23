@@ -29,7 +29,7 @@ def home(request):
         name = manga.find("a").text
         link = {
             'url': manga.find("a").get("href"),
-            'endpoint': manga.find("a").get("href").replace(baseURL, "")
+            'endpoint': manga.find("a").get("href").replace(baseURL, "").replace(proxq, "")
         }
         
         obj["menu"].append({ 'name': name, 'link': link })
@@ -49,13 +49,13 @@ def home(request):
                 thumb = m.find("img").get("src").split("?")[0]
                 link = {
                     'url': m.find("a", itemprop="url").get("href"),
-                    'endpoint': m.find("a", itemprop="url").get("href").replace(baseURL, "")
+                    'endpoint': m.find("a", itemprop="url").get("href").replace(baseURL, "").replace(proxq, "")
                 }
                 last_upload = m.find("span", {"class": "datech"}).text
                 last_chapter = {
                     'name': m.find("div", {"class": "lsch"}).find("a").text,
                     'url': m.find("div", {"class": "lsch"}).find("a").get("href"),
-                    'endpoint': m.find("div", {"class": "lsch"}).find("a").get("href").replace(baseURL, "")
+                    'endpoint': m.find("div", {"class": "lsch"}).find("a").get("href").replace(baseURL, "").replace(proxq, "")
                 }
                 obj["body"]["popular"].append({ 'name': name, 'thumb': thumb, 'link': link, 'last_upload': last_upload, 'last_chapter': last_chapter })
             continue
@@ -69,7 +69,7 @@ def home(request):
                 thumb = m.find("img").get("src").split("?")[0]
                 link = {
                     'url': m.find("a", itemprop="url").get("href"),
-                    'endpoint': m.find("a", itemprop="url").get("href").replace(baseURL, "")
+                    'endpoint': m.find("a", itemprop="url").get("href").replace(baseURL, "").replace(proxq, "")
                 }
                 obj["body"]["latest"].append({ 'name': name, 'thumb': thumb, 'link': link })
             continue
@@ -91,7 +91,7 @@ def daftar_komik(request, page):
         thumb = manga.find("img").get("src").split("?")[0]
         link = {
             'url': manga.find("a", itemprop="url").get("href"),
-            'endpoint': manga.find("a", itemprop="url").get("href").replace(baseURL, "")
+            'endpoint': manga.find("a", itemprop="url").get("href").replace(baseURL, "").replace(proxq, "")
         }
         
         obj["mangas"].append({ 'name': name, 'thumb': thumb, 'link': link })
@@ -103,7 +103,7 @@ def daftar_komik(request, page):
         url = page.get("href")
         endpoint = None
         if (url):
-            endpoint = url.replace(baseURL, "")
+            endpoint = url.replace(baseURL, "").replace(proxq, "")
             
         obj["pagination"].append({'name': name, 'url': url, 'endpoint': endpoint })
 
@@ -124,7 +124,7 @@ def komik_terbaru(request, page):
         thumb = manga.find("img").get("src").split("?")[0]
         link = {
             'url': manga.find("a", itemprop="url").get("href"),
-            'endpoint': manga.find("a", itemprop="url").get("href").replace(baseURL, "")
+            'endpoint': manga.find("a", itemprop="url").get("href").replace(baseURL, "").replace(proxq, "")
         }
         
         obj["mangas"].append({ 'name': name, 'thumb': thumb, 'link': link })
@@ -136,7 +136,7 @@ def komik_terbaru(request, page):
         url = page.get("href")
         endpoint = None
         if (url):
-            endpoint = url.replace(baseURL, "")
+            endpoint = url.replace(baseURL, "").replace(proxq, "")
             
         obj["pagination"].append({'name': name, 'url': url, 'endpoint': endpoint })
 
@@ -165,7 +165,7 @@ def komik(request, type, page):
         thumb = manga.find("img").get("src").split("?")[0]
         link = {
             'url': manga.find("a").get("href"),
-            'endpoint': manga.find("a").get("href").replace(baseURL, "")
+            'endpoint': manga.find("a").get("href").replace(baseURL, "").replace(proxq, "")
         }
         
         obj["mangas"].append({ 'name': name, 'thumb': thumb, 'link': link })
@@ -177,7 +177,7 @@ def komik(request, type, page):
         url = page.get("href")
         endpoint = None
         if (url):
-            endpoint = url.replace(baseURL, "").replace("konten/", "komikk/")
+            endpoint = url.replace(baseURL, "").replace("konten/", "komikk/").replace(proxq, "")
             
         obj["pagination"].append({'name': name, 'url': url, 'endpoint': endpoint })
 
@@ -205,7 +205,7 @@ def komik_detail(request, endpoint):
         name = genre.get("title")
         link = {
             'url': genre.get("href"),
-            'endpoint': genre.get("href").replace(baseURL, "")
+            'endpoint': genre.get("href").replace(baseURL, "").replace(proxq, "")
         }
         obj["genres"].append({ 'name': name, 'link': link })  
     
@@ -244,7 +244,7 @@ def search(request, query):
         thumb = manga.find("img").get("src").split("?")[0]
         link = {
             'url': manga.find("a").get("href"),
-            'endpoint': manga.find("a").get("href").replace(baseURL, "")
+            'endpoint': manga.find("a").get("href").replace(baseURL, "").replace(proxq, "")
         }
         
         obj["mangas"].append({ 'name': name, 'thumb': thumb, 'link': link })
@@ -253,7 +253,7 @@ def search(request, query):
     pagination = soup.find_all(class_="page-numbers")
     for page in pagination:
         name = page.text
-        url = page.get("href")
+        url = page.get("href").replace(proxq, "")
         endpoint = None
         if (url):
             uri = url.split('/')
@@ -273,7 +273,7 @@ def chapter(request, endpoint):
     
     obj = {}
     manga = soup.find("head")
-    chapter_link = manga.find("link", {"type": "application/json"}).get("href")
+    chapter_link = manga.find("link", {"type": "application/json"}).get("href").replace(proxq, "")
     
     reschap = tools.get(chapter_link)
     res = json.loads(reschap.text)
@@ -283,7 +283,7 @@ def chapter(request, endpoint):
     obj["images"] = []
     imgs = soupp.find_all("img")
     for img in imgs:
-        obj["images"].append(img.get("src"))
+        obj["images"].append(img.get("src").split("?")[0])
     
     nav = soup.find("div", {"class": "navig"}).find(class_="nextprev")
     obj["chapter"] = {}
@@ -292,12 +292,12 @@ def chapter(request, endpoint):
     if (prev == None):
         obj["chapter"]["prev"] = None
     else:
-        obj["chapter"]["prev"] = prev.get("href").replace(baseURL, "")
+        obj["chapter"]["prev"] = prev.get("href").replace(baseURL, "").replace(proxq, "")
     
     nextq = nav.find(rel="next")
     if (nextq == None):
         obj["chapter"]["next"] = None
     else:
-        obj["chapter"]["next"] = nextq.get("href").replace(baseURL, "")
+        obj["chapter"]["next"] = nextq.get("href").replace(baseURL, "").replace(proxq, "")
     
     return obj
