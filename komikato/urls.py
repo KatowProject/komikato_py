@@ -19,5 +19,7 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('komikindo/', include('web.komikindo.urls')),
+    path('otakudesu/', include('web.otakudesu.urls')),
     path('api/komikindo/', include('api.komikindo.urls')),
+    path('api/otakudesu/', include('api.otakudesu.urls')),
 ]

@@ -1,0 +1,24 @@
+{% include 'layout/header.html' %}
+    <div class="row" id="manga-list">
+        <div class="col-md-12">
+            <hr>
+            <h2 class="text-center"> Hasil Pencarian: </h3>
+                <hr>
+        </div>
+        {% for anime in animes %}
+            <div class="col-md-3">
+                <div class="card mb-3" style="width: auto;">
+                    <img src="{{ anime.thumb }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">
+                            {{ anime.name }}
+                        </h5>
+                        <a class="btn btn-dark btn-sm btn-block see-detail" href="#" data-toggle="modal"
+                            data-source="otakudesu" data-endpoint="{{ anime.endpoint }}"
+                            data-target="#exampleModal">Detail</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% include 'layout/footer.html' %}

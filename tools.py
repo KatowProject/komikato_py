@@ -1,6 +1,5 @@
 import requests as r
-import base64
-import json
+from bs4 import BeautifulSoup
 
 req = r.Session()
 req.headers.update({'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'})
@@ -25,3 +24,17 @@ def get(url, options={}):
             return response
         # url_base64 = base64.b64encode(url.encode('utf-8'))
         # response = req.get("https://bypass.kato-rest.us/url/" + url_base64.decode('utf-8'))
+        
+def get_media_src(url):
+    response = get(url)
+    data = response.text
+    soup = BeautifulSoup(data, "html.parser")
+    
+    src = None
+    src1 = soup.find("source")
+    src2 = data.split("sources: [")[1].split("]")[0]
+    if (src1):
+        src = src1.get("src")
+    elif (src2):
+        src = src2.split("'file':")[1].split("'")[1]
+    return src

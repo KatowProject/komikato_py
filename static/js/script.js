@@ -139,10 +139,10 @@ $('#mangas').on('click', '.see-detail', function () {
 
         case 'otakudesu':
             const otkdsEndpoint = $(this).data('endpoint');
-            $.getJSON(`${domain}/api/otakudesu/anime/detail/${otkdsEndpoint.replace('/anime/', '')}`, async function (result) {
-                const data = result.data;
+            $.getJSON(`${domain}/api/otakudesu/${otkdsEndpoint}`, async function (result) {
+                const data = result;
 
-                const filterEps = data.eps.filter(a => a.type == 'List')[0].data;
+                const filterEps = data.eps.find(a => a.type === "List").data;
                 $('.modal-title').text(`${data.title}`);
                 $('.modal-body').html(`
                 <div class="container-fluid">
@@ -260,7 +260,7 @@ function generateEpsList(array) {
         temp.push(`
             <tr>
                 <td>${a.title}</td>
-                <td><a href="/otakudesu/eps${a.endpoint}" target="_blank"><button type="button" class="btn btn-dark btn-sm btn-block">Nonton Anime</button></a></td>
+                <td><a href="/otakudesu/eps/${a.endpoint}" target="_blank"><button type="button" class="btn btn-dark btn-sm btn-block">Nonton Anime</button></a></td>
             </tr>
         `);
     });
@@ -386,8 +386,8 @@ $('.dropdown-item').on('click', function () {
     const mirror = $(this).data('query');
     const domain = location.origin;
 
-    $.getJSON(`${domain}/api/otakudesu/anime/eps/${endpoint}${mirror}`, function (result) {
-        const stream_link = result.data.stream_link;
+    $.getJSON(`${domain}/api/otakudesu/eps/${endpoint}${mirror}`, function (result) {
+        const stream_link = result.stream_link;
 
         $('#my-video').length === 0 ? true : videojs('my-video').dispose();
 
