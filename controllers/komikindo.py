@@ -215,12 +215,12 @@ def komik_detail(request, endpoint):
     chapters = manga.find(id="chapter_list").find_all(class_="lchx")
     for chapter in chapters:
         name = chapter.find("a").text
-        url = chapter.find("a").get("href")
+        url = chapter.find("a").get("href").replace(proxq, "")
         endpoint = None
         if ("komikindo-id" in url):
             endpoint = url.replace(prox, "").replace(proxq, "")
         else:
-            endpoint = url.replace(baseURL, "")
+            endpoint = url.replace(baseURL, "").replace(proxq, "")
         link = { 'url': url, 'endpoint': endpoint }
         obj["chapters"].append({ 'name': name, 'link': link })
         
