@@ -3,6 +3,8 @@ import urllib
 import tools
 from bs4 import BeautifulSoup
 baseURL = "https://komikindo.id/"
+prox = "https://komikindo-id.translate.goog/"
+proxq = "?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=id"
 
 def index(request):
     response = tools.get(baseURL)
@@ -17,7 +19,8 @@ def index(request):
 
 def home(request):
     response = tools.get(baseURL)
-    soup = BeautifulSoup(response.text, 'html.parser')
+    data = response.text.replace(prox, baseURL).replace(proxq, "")
+    soup = BeautifulSoup(data, 'html.parser')
     
     obj = {}
     obj["menu"] = []
@@ -75,7 +78,8 @@ def home(request):
 
 def daftar_komik(request, page):
     response = tools.get(baseURL + 'daftar-komik/page/' + str(page))
-    soup = BeautifulSoup(response.text, 'html.parser')
+    data = response.text.replace(prox, baseURL).replace(proxq, "")
+    soup = BeautifulSoup(data, 'html.parser')
     
     obj = {}
     mangas = soup.find_all("div", {"class": "animepost"})
@@ -107,7 +111,8 @@ def daftar_komik(request, page):
 
 def komik_terbaru(request, page):
     response = tools.get(baseURL + 'komik-terbaru/page/' + str(page))
-    soup = BeautifulSoup(response.text, 'html.parser')
+    data = response.text.replace(prox, baseURL).replace(proxq, "")
+    soup = BeautifulSoup(data, 'html.parser')
     
     obj = {}
     mangas = soup.find_all("div", {"class": "animepost"})
@@ -148,7 +153,8 @@ def komik(request, type, page):
     elif (type == "smut"):
         response = tools.get(baseURL + 'konten/smut/page/' + str(page))
     
-    soup = BeautifulSoup(response.text, 'html.parser')
+    data = response.text.replace(prox, baseURL).replace(proxq, "")
+    soup = BeautifulSoup(data, 'html.parser')
     
     obj = {}
     mangas = soup.find_all("div", {"class": "animepost"})
@@ -178,10 +184,9 @@ def komik(request, type, page):
     return obj
     
 def komik_detail(request, endpoint):
-    prox = "https://komikindo-id.translate.goog/"
-    proxq = "?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=id"
     response = tools.get(baseURL + endpoint)
-    soup = BeautifulSoup(response.text, 'html.parser')
+    data = response.text.replace(prox, baseURL).replace(proxq, "")
+    soup = BeautifulSoup(data, 'html.parser')
     
     obj = {}
     manga = soup.find(class_="postbody")
@@ -227,7 +232,8 @@ def search(request, query):
     if (page == None):
         page = 1
     response = tools.get(baseURL + 'page/' + str(page) + '/?' + urllib.parse.urlencode({'s': query}))
-    soup = BeautifulSoup(response.text, 'html.parser')
+    data = response.text.replace(prox, baseURL).replace(proxq, "")
+    soup = BeautifulSoup(data, 'html.parser')
     
     obj = {}
     mangas = soup.find_all("div", {"class": "animepost"})
@@ -262,7 +268,8 @@ def search(request, query):
 
 def chapter(request, endpoint):
     response = tools.get(baseURL + endpoint)
-    soup = BeautifulSoup(response.text, 'html.parser')
+    data = response.text.replace(prox, baseURL).replace(proxq, "")
+    soup = BeautifulSoup(data, 'html.parser')
     
     obj = {}
     manga = soup.find("head")
