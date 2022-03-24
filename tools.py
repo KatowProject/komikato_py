@@ -32,9 +32,9 @@ def get_media_src(url):
     
     src = None
     src1 = soup.find("source")
-    src2 = data.split("sources: [")[1].split("]")[0]
+    src2 = data.split("sources: [")
     if (src1):
-        src = src1.get("src")
+        src = src1[1].split("]")[0].get("src")
     elif (src2):
         src = src2.split("'file':")[1].split("'")[1]
     return src
