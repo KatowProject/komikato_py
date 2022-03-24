@@ -19,7 +19,10 @@ def get(url, options={}):
         
         if "otakudesu" in url:
             url = url.replace("otakudesu.live", "otakudesu-live.translate.goog")
-            response = req.get(url + "?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=id", params=options)
+            if "?" in url:
+                response = req.get(url, params=options)
+            else:
+                response = req.get(url + "?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=id", params=options)
             
             return response
         # url_base64 = base64.b64encode(url.encode('utf-8'))
