@@ -18,7 +18,7 @@ def get(url, options={}):
             return response
         
         if "otakudesu" in url:
-            url = url.replace("otakudesu.live", "otakudesu-.translate.goog")
+            url = url.replace("otakudesu.live", "otakudesu-live.translate.goog")
             response = req.get(url + "?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=id", params=options)
             
             return response
