@@ -218,11 +218,16 @@ def eps(request, endpoint):
             lis = mr.find_all("li")
             for li in lis:
                 if "otakudesu" in url:
-                    url = url.replace(baseURL, "").replace(prox, "").replace(proxq, "")
+                    url = url.replace(baseURL, "").replace(prox, "").replace(proxq, "")    
                 temp.append({
                     'title': li.find("a").text.strip(),
                     'url': url,
                 })
+                
+            obj["mirror_stream_link"].append({
+                'name': "720p",
+                'data': temp
+            })
                 
     
     obj["download_link"] = []
