@@ -18,7 +18,7 @@ def get(url, options={}):
             return response
         
         if "otakudesu" in url:
-            url = url.replace("otakudesu.live", "otakudesu-live.translate.goog")
+            url = url.replace("otakudesu.live", "otakudesu-.translate.goog")
             response = req.get(url + "?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=id", params=options)
             
             return response
@@ -34,7 +34,7 @@ def get_media_src(url):
     src1 = soup.find("source")
     src2 = data.split("sources: [")
     if (src1):
-        src = src1[1].split("]")[0].get("src")
-    elif (src2):
-        src = src2.split("'file':")[1].split("'")[1]
+        src = src1.get("src")
+    elif (len(src2) > 1):
+        src = src2[1].split("]")[0].split("'file':")[1].split("'")[1]
     return src
