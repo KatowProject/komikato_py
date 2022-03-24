@@ -218,7 +218,8 @@ def eps(request, endpoint):
             lis = mr.find_all("li")
             for li in lis:
                 if "otakudesu" in url:
-                    url = url.replace(baseURL, "").replace(prox, "").replace(proxq, "")    
+                    url = url.split("?")[1]   
+                    url = f"?{url}"
                 temp.append({
                     'title': li.find("a").text.strip(),
                     'url': url,
