@@ -204,7 +204,8 @@ def eps(request, endpoint):
             for li in lis:
                 url = li.find("a").get("href")
                 if "otakudesu" in url:
-                    url = url.replace(baseURL, "").replace(prox, "").replace(proxq, "")
+                    url = url.split("?")[1]
+                    url = f"?{url}"
                 temp.append({
                     'title': li.find("a").text.strip(),
                     'url': url,
@@ -217,6 +218,7 @@ def eps(request, endpoint):
         elif "720" in class_:
             lis = mr.find_all("li")
             for li in lis:
+                url = li.find("a").get("href")
                 if "otakudesu" in url:
                     url = url.split("?")[1]   
                     url = f"?{url}"
