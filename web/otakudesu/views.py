@@ -13,3 +13,7 @@ def search(request, query):
 def eps(request, endpoint):
     komik = otakudesu.eps(request, endpoint)
     return render(request, 'otakudesu/eps.html', context=komik)
+
+def reverse_proxy(request):
+    url = request.GET.get('url')
+    return otakudesu.reverse_proxy(request, url)

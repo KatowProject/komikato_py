@@ -5,4 +5,5 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('search/<str:query>/', views.search, name='search'),
     path('eps/<str:endpoint>/', views.eps, name='eps'),
+    path('reverse/', views.reverse_proxy, name='reverse_proxy'),
 ]

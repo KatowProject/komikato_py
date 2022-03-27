@@ -1,0 +1,60 @@
+{% include 'layout2/header.html' %}
+        <script>
+            document.title = 'Komikindo • Home';
+        </script>
+		<!-- Main -->
+		<div id="main">
+			<div class="inner">
+				<!-- Header -->
+				<header id="header">
+
+					<a href="/" class="logo"><strong>Komikato</strong></a>
+					<ul class="icons">
+						<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+					</ul>
+				</header>
+
+				<!-- Section -->
+				<section>
+					<header class="major">
+						<h2>Newest Manga</h2>
+					</header>
+					<div class="posts">
+                        {% for manga in body.latest %}
+                        <article>
+                            <a href="#" class="image center-cropped"><img
+                                src="{{manga.thumb}}" alt="" /></a>
+                            <h3>{{ manga.name }}</h3>  
+                            <p>Baca {{ manga.name }}</p>
+                            <ul class="actions">
+                                <li><a class="button see-detail" data-source="komikindo" data-endpoint="{{ manga.link.endpoint }}">More</a></li>
+                            </ul>
+                        </article>
+                        {% endfor %}
+					</div>
+				</section>
+
+			</div>
+		</div>
+
+		<!-- Sidebar -->
+		<div id="sidebar">
+			<div class="inner">
+
+				<!-- Search -->
+				<section id="search" class="alt">
+					<form method="post" action="#">
+						<input type="text" name="query" id="query" placeholder="Search" />
+					</form>
+				</section>
+
+                {% include 'layout2/navbar.html' %}
+				<!-- Footer -->
+				<footer id="footer">
+					<p class="copyright">&copy; KatowProject. All rights reserved. Design: <a
+							href="https://html5up.net">HTML5 UP</a>.</p>
+				</footer>
+			</div>
+		</div>
+
+{% include 'layout2/footer.html' %}

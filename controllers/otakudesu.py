@@ -253,5 +253,10 @@ def eps(request, endpoint):
         i=i+1
     return obj
 
+def reverse_proxy(request, url):
+    response = tools.reverse_proxy(url)
+    
+    return response.raw
+
      
         

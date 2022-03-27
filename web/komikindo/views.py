@@ -4,7 +4,7 @@ from django.shortcuts import render
 # Create your views here.
 def index(request):
     mangas = komikindo.home(request)
-    return render(request, 'komikindo/index.html', context=mangas)
+    return render(request, 'komikindo/index2.html', context=mangas)
 
 def search(request, query):
     search = komikindo.search(request, query)

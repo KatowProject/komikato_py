@@ -1,5 +1,6 @@
 import requests as r
 from bs4 import BeautifulSoup
+import base64
 
 req = r.Session()
 req.headers.update({'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36'})
@@ -41,3 +42,24 @@ def get_media_src(url):
     elif (len(src2) > 1):
         src = src2[1].split("]")[0].split("'file':")[1].split("'")[1]
     return src
+
+def reverse_proxy(url):
+    #decode base64
+    url = base64.b64decode(url).decode('utf-8')
+    
+    req.headers.update({
+        'Accept-Encoding': 'identity;q=1, *;q=0',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Connection': 'keep-alive',
+        'Cookie': 'zippyadb=0; JSESSIONID=7A125F9BDDB9DEA8E697E106E7C11B6F; zippop=1',
+        'Range': 'bytes=0-',
+        'Referer': url,
+        'Sec-Fetch-Dest': 'video',
+        'Sec-Fetch-Mode': 'no-cors',
+        'Sec-Fetch-Site': 'same-origin',
+    })
+
+    #return as video
+    response = req.get(url)
+    
+    return response

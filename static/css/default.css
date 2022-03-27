@@ -22,6 +22,18 @@ html {
     border-color: grey;
 }
 
+@media screen and (max-width: 768px) {
+    td.button {
+        width: 80%;
+        font-size: 1.2rem;
+    }
+
+    .table-wrapper.modl {
+        width: 450px;
+        overflow: auto;
+    }
+}
+
 /* custom scrollbar */
 ::-webkit-scrollbar {
     width: 20px;
