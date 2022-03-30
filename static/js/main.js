@@ -276,8 +276,26 @@
 })(jQuery);
 
 $(document).ready(function () {
-	$('.see-detail').click(async function () {
+	$("form").on("submit", function (e) {
+		const data = $(this).serialize();
+	});
 
+	$("#query").on("keyup", function (e) {
+		const value = $(this).val();
+		const source = $("#search").data("source");
+
+		if (e.keyCode === 13) {
+			if (value.length < 1) return;
+
+			switch (source) {
+				case 'komikindo':
+					window.location.href = `/komikindo/search/${value}`;
+					break
+			}
+		}
+	})
+
+	$('.see-detail').click(async function () {
 		const url = $(this).data('endpoint');
 		const source = $(this).data('source');
 		getDetail(url, source);

@@ -253,7 +253,9 @@ def search(request, query):
     pagination = soup.find_all(class_="page-numbers")
     for page in pagination:
         name = page.text
-        url = page.get("href").replace(proxq, "")
+        url = page.get("href")
+        if url:
+            url = url.replace(proxq, "")
         endpoint = None
         if (url):
             uri = url.split('/')

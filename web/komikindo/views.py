@@ -8,7 +8,7 @@ def index(request):
 
 def search(request, query):
     search = komikindo.search(request, query)
-    return render(request, 'komikindo/search.html', context=search)
+    return render(request, 'komikindo/search2.html', context=search)
 
 def chapter(request, endpoint):
     chapter = komikindo.chapter(request, endpoint)
