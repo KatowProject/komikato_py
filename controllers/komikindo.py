@@ -283,7 +283,8 @@ def chapter(request, endpoint):
     obj["images"] = []
     imgs = soupp.find_all("img")
     for img in imgs:
-        obj["images"].append(img.get("src").split("?")[0])
+        _src = img.get("src").replace("https://komikcdn.me", "https://komikcdn-me.translate.goog")
+        obj["images"].append(_src)
     
     nav = soup.find("div", {"class": "navig"}).find(class_="nextprev")
     obj["chapter"] = {}
