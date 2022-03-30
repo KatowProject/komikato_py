@@ -12,6 +12,8 @@ def get(url, options={}):
         url_base64 = base64.b64encode(url.encode('utf-8'))
         response = req.get("https://bypass.kato-rest.us/?q=" + url_base64.decode('utf-8'))
         
+        return response
+        
 def get_media_src(url):
     response = get(url)
     data = response.text
