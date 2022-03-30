@@ -18,8 +18,8 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('komikindo/', include('web.komikindo.urls')),
-    path('otakudesu/', include('web.otakudesu.urls')),
-    path('api/komikindo/', include('api.komikindo.urls')),
-    path('api/otakudesu/', include('api.otakudesu.urls')),
+    path('komikindo/', include('routers.web.komikindo.urls')),
+    path('otakudesu/', include('routers.web.otakudesu.urls')),
+    path('api/komikindo/', include('routers.api.komikindo.urls')),
+    path('api/otakudesu/', include('routers.api.otakudesu.urls')),
 ]

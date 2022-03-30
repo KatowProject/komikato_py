@@ -1,6 +1,6 @@
 {% include 'layout2/header.html' %}
         <script>
-            document.title = 'Komikindo • Daftar Komik';
+            document.title = 'Komikindo • Home';
         </script>
 		<!-- Main -->
 		<div id="main">
@@ -17,10 +17,10 @@
 				<!-- Section -->
 				<section>
 					<header class="major">
-						<h2>Daftar Komik</h2>
+						<h2>Newest Manga</h2>
 					</header>
 					<div class="posts">
-                        {% for manga in mangas %}
+                        {% for manga in body.latest %}
                         <article>
                             <a href="#" class="image center-cropped"><img
                                 src="{{manga.thumb}}" alt="" /></a>
@@ -34,22 +34,6 @@
                         {% endfor %}
 					</div>
 				</section>
-                
-                <section>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <ul class="pagination justify-content-center">
-                            {% for page in pagination %}
-                                {% if page.url == None and page.endpoint == None %}
-                                    <li><a class="page active">{{ page.name }}</a></li>
-                                {% else %}
-                                    <li><a class="page" href="/komikindo/{{ page.endpoint}}">{{ page.name }}</a></li>
-                                {% endif %}
-                            {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
-                </section>
 			</div>
 		</div>
 
@@ -58,9 +42,9 @@
 			<div class="inner">
 
 				<!-- Search -->
-				<section id="search" class="alt">
-					<form method="post" action="#">
-						<input type="text" name="query" id="query" placeholder="Search" />
+				<section id="search" class="alt" data-source="komikindo">
+					<form name="search" action>
+						<input type="text" name="query" id="query" placeholder="Search" required>
 					</form>
 				</section>
 

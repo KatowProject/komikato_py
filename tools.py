@@ -16,7 +16,10 @@ def get(url, options={}):
     else:
         if "komikindo" in url:
             url = url.replace("komikindo.id", "komikindo-id.translate.goog")
-            response = req.get(url + "?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=id", params=options)
+            if "?" in url:
+                response = req.get(url + "&_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=id", params=options)
+            else:
+                response = req.get(url + "?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=id", params=options)
             
             return response
         

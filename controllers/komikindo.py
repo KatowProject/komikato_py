@@ -152,13 +152,15 @@ def komik(request, type, page):
         response = tools.get(baseURL + 'manhwa/page/' + str(page))
     elif (type == "smut"):
         response = tools.get(baseURL + 'konten/smut/page/' + str(page))
+    else:
+        return None
     
     data = response.text.replace(prox, baseURL).replace(proxq, "")
     soup = BeautifulSoup(data, 'html.parser')
     
     obj = {}
     mangas = soup.find_all("div", {"class": "animepost"})
-    
+    obj["type"] = type
     obj["mangas"] = []
     for manga in mangas:
         name = manga.find("a").get("title")
@@ -177,7 +179,7 @@ def komik(request, type, page):
         url = page.get("href")
         endpoint = None
         if (url):
-            endpoint = url.replace(baseURL, "").replace("konten/", "komikk/").replace(proxq, "")
+            endpoint = url.replace(baseURL, "").replace("konten/", "").replace(proxq, "")
             
         obj["pagination"].append({'name': name, 'url': url, 'endpoint': endpoint })
 
@@ -185,6 +187,9 @@ def komik(request, type, page):
     
 def komik_detail(request, endpoint):
     response = tools.get(baseURL + 'komik/' + endpoint)
+    if (response.status_code == 404):
+        return None
+    
     data = response.text.replace(prox, baseURL).replace(proxq, "")
     soup = BeautifulSoup(data, 'html.parser')
     
@@ -270,6 +275,8 @@ def search(request, query):
 
 def chapter(request, endpoint):
     response = tools.get(baseURL + endpoint)
+    if (response.status_code == 404):
+        return None
     data = response.text.replace(prox, baseURL).replace(proxq, "")
     soup = BeautifulSoup(data, 'html.parser')
     
