@@ -21,3 +21,7 @@ def komik(request, type, page):
 def komik_detail(request, endpoint):
     komik_detail = komikindo.komik_detail(request, endpoint)
     return render(request, 'komikindo/komik2.html', context=komik_detail)
+
+def daftar_komik(request, page=1):
+    komik_list = komikindo.daftar_komik(request, page)
+    return render(request, 'komikindo/daftar-komik.html', context=komik_list)

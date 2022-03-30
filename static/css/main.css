@@ -1442,8 +1442,6 @@ ul.pagination {
     ul.pagination li:last-child {
       padding-left: 0.75em; }
   @media screen and (max-width: 480px) {
-    ul.pagination li:nth-child(n+2):nth-last-child(n+2) {
-      display: none; }
     ul.pagination li:first-child {
       padding-right: 0; } }
 
