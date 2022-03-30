@@ -29,12 +29,24 @@
 		window.setTimeout(function () {
 			$body.removeClass('is-preload');
 		}, 100);
+
+		if (breakpoints.active('<=medium')) {
+			$body.find(".table-wrapper.modl").attr("style", "overflow-x: scroll; height:400px; width:100%");
+		} else {
+			$body.find(".table-wrapper.modl").attr("style", "overflow-x: scroll; height:400px;");
+		}
 	});
 
 	// ... stopped resizing.
 	var resizeTimeout;
 
 	$window.on('resize', function () {
+
+		if (breakpoints.active('<=medium')) {
+			$body.find(".table-wrapper.modl").attr("style", "overflow-x: scroll; height:400px; width:100%");
+		} else {
+			$body.find(".table-wrapper.modl").attr("style", "overflow-x: scroll; height:400px;");
+		}
 
 		// Mark as resizing.
 		$body.addClass('is-resizing');
@@ -259,6 +271,8 @@
 
 	});
 
+
+
 })(jQuery);
 
 $(document).ready(function () {
@@ -344,6 +358,8 @@ async function getDetail(url, source) {
 				showConfirmButton: false,
 				showCloseButton: true,
 			});
+			//remove css box-shadow
+			$(".swal2-close").css("box-shadow", "none");
 			break;
 
 		case "otakudesu":

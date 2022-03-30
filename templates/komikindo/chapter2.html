@@ -1,0 +1,79 @@
+{% include "layout2/header.html" %}
+    <script>
+        document.title = "Komik {{ title }} • Komikindo";
+    </script>
+    <div id="main">
+        <div class="inner">
+            <!-- Header -->
+            <header id="header">
+
+                <a href="/" class="logo"><strong>Komikato</strong></a>
+                <ul class="icons">
+                    <li><a href="//github.com/KatowProject" class="icon brands fa-github"><span class="label">Github</span></a></li>
+                </ul>
+            </header>
+
+            <!-- Section -->
+            <section>
+                <header class="main">
+                    <h1>{{ title }}</h1>
+                </header>
+
+                <div class="btn-group btn-block">
+                    {% if chapter.prev != None %}
+                        <a href='/komikindo/chapter/{{chapter.prev}}' class='button fit'>Previous</a>
+                    {% else %}
+                        <a href='#' class='button fit'>Previous</a>
+                    {% endif %}
+
+                    {% if chapter.next != None %}
+                        <a href='/komikindo/chapter/{{chapter.next}}' class='button fit'>Next</a>
+                    {% else %}
+                        <a href='#' class='button fit disabled'>Next</a>
+                    {% endif %}
+                </div>
+
+                <hr>
+                <span class="image main">
+                {% for image in images %}
+                    <img src="{{ image }}" alt="">
+                {% endfor %}
+                </span>
+                <hr>
+
+                <div class="btn-group btn-block">
+                    {% if chapter.prev != None %}
+                        <a href='/komikindo/chapter/{{chapter.prev}}' class='button fit'>Previous</a>
+                    {% else %}
+                        <a href='#' class='button fit'>Previous</a>
+                    {% endif %}
+
+                    {% if chapter.next != None %}
+                        <a href='/komikindo/chapter/{{chapter.next}}' class='button fit'>Next</a>
+                    {% else %}
+                        <a href='#' class='button fit disabled'>Next</a>
+                    {% endif %}
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+	<div id="sidebar">
+		<div class="inner">
+				<!-- Search -->
+			<section id="search" class="alt">
+				<form method="post" action="#">
+					<input type="text" name="query" id="query" placeholder="Search" />
+				</form>
+			</section>
+
+            {% include 'layout2/navbar.html' %}
+				<!-- Footer -->
+			<footer id="footer">
+				<p class="copyright">&copy; KatowProject. All rights reserved. Design: <a
+							href="https://html5up.net">HTML5 UP</a>.</p>
+			</footer>
+		</div>
+	</div>
+{% include "layout2/footer.html" %}

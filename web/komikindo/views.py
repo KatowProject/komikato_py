@@ -12,8 +12,12 @@ def search(request, query):
 
 def chapter(request, endpoint):
     chapter = komikindo.chapter(request, endpoint)
-    return render(request, 'komikindo/chapter.html', context=chapter)
+    return render(request, 'komikindo/chapter2.html', context=chapter)
 
 def komik(request, type, page):
     komik = komikindo.komik(request, type, page)
     return render(request, 'komikindo/smut.html', context=komik)
+
+def komik_detail(request, endpoint):
+    komik_detail = komikindo.komik_detail(request, endpoint)
+    return render(request, 'komikindo/komik2.html', context=komik_detail)

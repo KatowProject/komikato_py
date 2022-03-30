@@ -1,0 +1,82 @@
+{% include "layout2/header.html" %}
+    <script>
+        document.title = "Komik {{ title }} • Komikindo";
+    </script>
+    <div id="main">
+        <div class="inner">
+            <!-- Header -->
+            <header id="header">
+
+                <a href="/" class="logo"><strong>Komikato</strong></a>
+                <ul class="icons">
+                    <li><a href="//github.com/KatowProject" class="icon brands fa-github"><span class="label">Github</span></a></li>
+                </ul>
+            </header>
+
+            <!-- Section -->
+            <section>
+                <header class="main">
+                    <h1>{{ title }}</h1>
+                </header>
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img src="{{ thumb }}" class="img-fluid" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <ul class="list-group">
+                                <li class="list-group-item text-sm-left"><b >Alternatif:</b>{% for a in alter %} {{a}}, {% endfor %}</li>
+                                <li class="list-group-item text-sm-left"><b>Status:</b> {{ status }}</li>
+                                <li class="list-group-item text-sm-left"><b>Pengarang:</b> {{ author }}</li>
+                                <li class="list-group-item text-sm-left"><b>Ilustrator:</b> {{ illustator }}</li>
+                                <li class="list-group-item text-sm-left"><b>Genre:</b>{% for genre in genres %} <a href="/komikindo{{ genre.endpoint }}">{{ genre.name }}</a>, {% endfor %}</li>
+                                <li class="list-group-item text-sm-left"><b>Score:</b> ⭐{{ score }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <hr>
+    
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <p>{{ synopsis }}</p>
+                        </div>
+                    </div>
+                    <hr class="major">
+                    <h2> Chapter List </h2>
+                    <div class="table-wrapper modl" style="overflow-x:scroll; height:400px;">
+                        <table class="table-alt">
+                            <tbody>
+                            {% for chapter in chapters %}
+                                <tr>    
+                                    <td>{{ chapter.name }}</td>
+                                    <td><a type="button" class="button primary fit" href="/komikindo/chapter/{{ chapter.link.endpoint }}" target="_blank">Baca Komik</a></td>
+                                </tr>    
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+	<div id="sidebar">
+		<div class="inner">
+				<!-- Search -->
+			<section id="search" class="alt">
+				<form method="post" action="#">
+					<input type="text" name="query" id="query" placeholder="Search" />
+				</form>
+			</section>
+
+            {% include 'layout2/navbar.html' %}
+				<!-- Footer -->
+			<footer id="footer">
+				<p class="copyright">&copy; KatowProject. All rights reserved. Design: <a
+							href="https://html5up.net">HTML5 UP</a>.</p>
+			</footer>
+		</div>
+	</div>
+{% include "layout2/footer.html" %}
