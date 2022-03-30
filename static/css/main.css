@@ -1873,7 +1873,7 @@ button,
         border-top: 0 !important; }
   @media screen and (max-width: 1680px) {
     .image.center-cropped {
-      width: 350px;
+      width: 100%;
     }
     #main > .inner {
       padding: 0 5em 0.1em 5em ; }
