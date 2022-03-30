@@ -184,7 +184,7 @@ def komik(request, type, page):
     return obj
     
 def komik_detail(request, endpoint):
-    response = tools.get(baseURL + endpoint)
+    response = tools.get(baseURL + 'komik/' + endpoint)
     data = response.text.replace(prox, baseURL).replace(proxq, "")
     soup = BeautifulSoup(data, 'html.parser')
     
