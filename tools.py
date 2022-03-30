@@ -1,6 +1,11 @@
-import requests as req
+import requests as r
 from bs4 import BeautifulSoup
 import base64
+
+req = r.Session()
+req.headers.update({
+    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36'
+})
 
 def get(url, options={}):
     response = req.get(url, params=options)
