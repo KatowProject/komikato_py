@@ -3,6 +3,7 @@
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
+const db = localStorage;
 
 (function ($) {
 
@@ -38,6 +39,7 @@
 
 		$("body").on('DOMSubtreeModified', "output", function () {
 			const value = $(this).text();
+			db.setItem("brightness", value);
 			$(".chapter").css("-webkit-filter", `brightness(${value}%)`);
 		});
 	});
@@ -304,8 +306,7 @@ $(document).ready(function () {
 				id: 'brightness',
 				style: 'height: 0.25em; line-height: 0.25em;'
 			},
-			className: 'swal-custom',
-			inputValue: 80,
+			inputValue: db.getItem("brightness") || 100,
 			showCancelButton: false,
 			showConfirmButton: false,
 		});
