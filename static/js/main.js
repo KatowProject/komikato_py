@@ -31,23 +31,21 @@
 		}, 100);
 
 		if (breakpoints.active('<=medium')) {
-			$body.find(".table-wrapper.modl").attr("style", "overflow-x: scroll; height:400px; width:100%");
+			$body.find(".table-wrapper.modl").attr("style", "overflow-y: scroll; height:400px; width:100%");
 		} else {
-			$body.find(".table-wrapper.modl").attr("style", "overflow-x: scroll; height:400px;");
+			$body.find(".table-wrapper.modl").attr("style", "overflow-y: scroll; height:400px;");
 		}
+
+		$("body").on('DOMSubtreeModified', "output", function () {
+			const value = $(this).text();
+			$(".chapter").css("-webkit-filter", `brightness(${value}%)`);
+		});
 	});
 
 	// ... stopped resizing.
 	var resizeTimeout;
 
 	$window.on('resize', function () {
-
-		if (breakpoints.active('<=medium')) {
-			$body.find(".table-wrapper.modl").attr("style", "overflow-x: scroll; height:400px; width:100%");
-		} else {
-			$body.find(".table-wrapper.modl").attr("style", "overflow-x: scroll; height:400px;");
-		}
-
 		// Mark as resizing.
 		$body.addClass('is-resizing');
 
@@ -293,14 +291,28 @@ $(document).ready(function () {
 					break
 			}
 		}
-	})
-
-	$('.see-detail').click(async function () {
-		const url = $(this).data('endpoint');
-		const source = $(this).data('source');
-		getDetail(url, source);
 	});
 
+	$("#btn-brightness").on("click", function (e) {
+		Swal.fire({
+			title: 'Brightness',
+			input: 'range',
+			inputAttributes: {
+				min: 0,
+				max: 100,
+				class: 'form-range',
+				id: 'brightness',
+				style: 'height: 0.25em; line-height: 0.25em;'
+			},
+			className: 'swal-custom',
+			inputValue: 80,
+			showCancelButton: false,
+			showConfirmButton: false,
+		});
+
+		$("output").css("line-height", "0.25em");
+		$(".swal2-range").css("height", '');
+	});
 });
 
 async function getDetail(url, source) {

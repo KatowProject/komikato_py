@@ -27,8 +27,7 @@
                             <h3>{{ manga.name }}</h3>  
                             <p>Baca {{ manga.name }}</p>
                             <ul class="actions">
-                                <li><a class="button see-detail" data-source="komikindo" data-endpoint="{{ manga.link.endpoint }}">More</a></li>
-								<li><a class="button" href="/komikindo/{{ manga.link.endpoint }}">More (New Page)</a></li>
+								<li><a class="button" href="/komikindo/{{ manga.link.endpoint }}">More</a></li>
                             </ul>
                         </article>
                         {% endfor %}

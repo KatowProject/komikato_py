@@ -22,7 +22,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-4">
-                            <img src="{{ thumb }}" class="img-fluid" alt="...">
+                            <img src="{{ thumb }}" class="img-fluid rounded" alt="...">
                         </div>
                         <div class="col-md-8">
                             <ul class="list-group">
@@ -50,7 +50,7 @@
                             {% for chapter in chapters %}
                                 <tr>    
                                     <td>{{ chapter.name }}</td>
-                                    <td><a type="button" class="button primary fit" href="/komikindo/chapter/{{ chapter.link.endpoint }}" target="_blank">Baca Komik</a></td>
+                                    <td><a type="button" class="button fit" href="/komikindo/chapter/{{ chapter.link.endpoint }}" target="_blank">Baca Komik</a></td>
                                 </tr>    
                             {% endfor %}
                             </tbody>
