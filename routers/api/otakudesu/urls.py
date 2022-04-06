@@ -7,4 +7,6 @@ urlpatterns = [
     path('search/<str:query>/', views.search, name='search'),
     path('anime/<str:endpoint>/', views.detail, name='detail'),
     path('eps/<str:endpoint>/', views.eps, name='eps'),
+    path('jadwal-rilis/', views.jadwal_rilis, name='jadwal_rilis'),
+    path('daftar-anime/', views.daftar_anime, name='daftar_anime'),
 ]

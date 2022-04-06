@@ -1,0 +1,59 @@
+{% include 'layout2/header.html' %}
+        <script>
+            document.title = 'Otakudesu • Home';
+        </script>
+		<!-- Main -->
+		<div id="main">
+			<div class="inner">
+				<!-- Header -->
+				<header id="header">
+
+					<a href="/" class="logo"><strong>Komikato</strong></a>
+					<ul class="icons">
+						<li><a href="//github.com/KatowProject" class="icon brands fa-github"><span class="label">Github</span></a></li>
+					</ul>
+				</header>
+
+				<!-- Section -->
+				<section>
+					<header class="major">
+						<h2>Hasil Pencarian</h2>
+					</header>
+					<div class="posts">
+                        {% for anime in animes %}
+                        <article>
+                            <a href="#" class="image center-cropped"><img
+                                src="{{anime.thumb}}" alt="{{ anime.name }}" /></a>
+                            <h3>{{ anime.name }}</h3>  
+                            <p>Nonton {{ anime.name }}</p>
+                            <ul class="actions">
+								<li><a class="button" href="/otakudesu/{{ anime.endpoint }}">More</a></li>
+                            </ul>
+                        </article>
+                        {% endfor %}
+					</div>
+				</section>   
+			</div>
+		</div>
+
+		<!-- Sidebar -->
+		<div id="sidebar">
+			<div class="inner">
+
+				<!-- Search -->
+				<section id="search" class="alt" data-source="otakudesu">
+					<form name="search" action>
+						<input type="text" name="query" id="query" placeholder="Search" required>
+					</form>
+				</section>
+
+                {% include 'layout2/navbar.html' %}
+				<!-- Footer -->
+				<footer id="footer">
+					<p class="copyright">&copy; KatowProject. All rights reserved. Design: <a
+							href="https://html5up.net">HTML5 UP</a>.</p>
+				</footer>
+			</div>
+		</div>
+
+{% include 'layout2/footer.html' %}

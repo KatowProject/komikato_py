@@ -1,4 +1,5 @@
 import requests as r
+import json
 from bs4 import BeautifulSoup
 import base64
 
@@ -42,10 +43,13 @@ def get_media_src(url):
     src = None
     src1 = soup.find("source")
     src2 = data.split("sources: [")
+    src3 = soup.find("iframe")
     if (src1):
         src = src1.get("src")
     elif (len(src2) > 1):
         src = src2[1].split("]")[0].split("'file':")[1].split("'")[1]
+    elif (src3):
+        src = src3.get("src")
     return src
 
 def reverse_proxy(url):

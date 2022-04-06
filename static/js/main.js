@@ -290,7 +290,11 @@ $(document).ready(function () {
 			switch (source) {
 				case 'komikindo':
 					window.location.href = `/komikindo/search/${value}`;
-					break
+					break;
+
+				case 'otakudesu':
+					window.location.href = `/otakudesu/search/${value}`;
+					break;
 			}
 		}
 	});
@@ -314,87 +318,27 @@ $(document).ready(function () {
 		$("output").css("line-height", "0.25em");
 		$(".swal2-range").css("height", '');
 	});
-});
 
-async function getDetail(url, source) {
-	let response = null;
-	let base = null;
-	switch (source) {
-		case "komikindo":
-			Swal.fire({
-				title: 'Loading...',
-			});
-			Swal.showLoading();
+	$(".dropdown-item").on("click", async function (e) {
+		const endpoint = window.location.pathname.split("/")[3];
+		const query = $(this).data("query");
 
-			base = "/api/komikindo/";
-			response = await $.ajax({
-				url: base + url,
-				type: 'GET',
-				dataType: 'json'
-			});
-			const data = response;
-			const chapterList = data.chapters.map(a => {
-				return `<tr>    
-                <td>${a.name}</td>
-                <td><a href="/komikindo/chapter/${a.link.endpoint}" target="_blank"><button type="button" class="button primary small">Baca Komik</button></a></td>
-                <td><a href="/komikindo/download/${a.link.endpoint}pdf"><button type="button" class="button primary small"><i class="fa fa-download"></i></button></a></td>
-				</tr>`
-			});
+		const response = await $.getJSON(`/api/otakudesu/eps/${endpoint}/${query}`);
 
-			let scroll = "";
-			chapterList.length > 6 ? scroll = 'style="overflow-x: scroll; height:400px;"' : scroll = '';
-			//swal html
-			let html = `
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-md-4">
-						<img src="${data.thumb}" class="img-fluid" alt="...">
-					</div>
-					<div class="col-md-8">
-						<ul class="list-group">
-							<li class="list-group-item text-sm-left"><b >Alternatif:</b> ${data.alter.length > 1 ? data.alter.join(', ') : data.alter}</li>
-							<li class="list-group-item text-sm-left"><b>Status:</b> ${data.status}</li>
-							<li class="list-group-item text-sm-left"><b>Pengarang:</b> ${data.author}</li>
-							<li class="list-group-item text-sm-left"><b>Ilustrator:</b> ${data.illustrator}</li>
-							<li class="list-group-item text-sm-left"><b>Genre:</b> ${data.genres.map(a => `<a href="${a.link}">${a.name}</a>`).join(', ')}</li>
-							<li class="list-group-item text-sm-left"><b>Score:</b> ⭐${data.score}</li>
-						</ul>
-					</div>
+		$(".chapter").html("");
+		if (response.stream_link.includes("archive.org")) {
+			$(".chapter").append(`
+				<video id="player" playsinline controls data-poster="/assets/image/kato.png">
+					<source src="${response.stream_link}" type="video/mp4" />  
+				</video>
+			`);
+			var Player = new Plyr('#player');
+		} else {
+			$(".chapter").append(`
+				<div class="embed-responsive embed-responsive-16by9">
+					<iframe class="embed-responsive-item" src="${response.stream_link}" allowfullscreen></iframe>
 				</div>
-				<hr>
-
-				<div class="row">
-					<div class="col-sm-12">
-						<p>${data.synopsis}</p>
-					</div>
-				</div>
-				<hr>
-
-				<div class="table-wrapper modl" ${scroll}>
-					<table class="table-alt">
-						<tbody>
-							${chapterList.join('\n')}
-						</tbody>
-					</table>
-				</div>
-			</div>
-			`
-			Swal.close();
-
-			//remove border swal
-			Swal.fire({
-				title: data.title,
-				html: html,
-				width: '800px',
-				showConfirmButton: false,
-				showCloseButton: true,
-			});
-			//remove css box-shadow
-			$(".swal2-close").css("box-shadow", "none");
-			break;
-
-		case "otakudesu":
-
-			break;
-	}
-} 
+			`);
+		}
+	});
+}); 

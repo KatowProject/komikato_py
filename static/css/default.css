@@ -16,7 +16,7 @@ html {
     display: block;
 }
 
-.page-item.active > .page-link {
+.page-item.active>.page-link {
     border-color: grey;
 }
 
@@ -47,25 +47,31 @@ table tbody tr:nth-child(2n + 1) {
     }
 }
 
-.swal2-range input, .swal2-range output {
+.swal2-range input,
+.swal2-range output {
     height: 0;
 }
+
+.plyr__control {
+    box-shadow: none;
+}
+
 /* custom scrollbar */
 ::-webkit-scrollbar {
     width: 20px;
 }
-  
+
 ::-webkit-scrollbar-track {
     background-color: transparent;
 }
-  
+
 ::-webkit-scrollbar-thumb {
     background-color: #d6dee1;
     border-radius: 20px;
     border: 6px solid transparent;
     background-clip: content-box;
 }
-  
+
 ::-webkit-scrollbar-thumb:hover {
     background-color: #a8bbbf;
 }

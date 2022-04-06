@@ -1,9 +1,15 @@
-from calendar import c
+from gettext import find
+from urllib import response
 import tools
 from bs4 import BeautifulSoup
-baseURL = "https://otakudesu.live/"
+baseURL = "https://otakudesu.site/"
 prox = "https://otakudesu-live.translate.goog/"
 proxq = "?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=id"
+
+def index(request):
+    response = tools.get(baseURL)
+    
+    return { 'success': True, 'statusCode': response.status_code }
 
 def home(request):
     response = tools.get(baseURL)
@@ -174,17 +180,6 @@ def eps(request, endpoint):
             'endpoint': url.replace(baseURL, "").replace(prox, "").replace(proxq, "")
         })
     
-    obj["all_eps"] = {
-        'name': soup.find(class_="flir").find_all("a")[0].text,
-        'url': soup.find(class_="flir").find_all("a")[0].get("href"),
-        'endpoint': soup.find(class_="flir").find_all("a")[0].get("href").replace(baseURL, "").replace(prox, "").replace(proxq, "")
-    }
-    obj["next_eps"] = {
-        'name': soup.find(class_="flir").find_all("a")[1].text,
-        'url': soup.find(class_="flir").find_all("a")[1].get("href"),
-        'endpoint': soup.find(class_="flir").find_all("a")[1].get("href").replace(baseURL, "").replace(prox, "").replace(proxq, "")
-    }
-    
     stream_link = soup.find(id="lightsVideo").find("iframe").get("src")
     if stream_link is None:
         obj["stream_link"] = "-"
@@ -192,7 +187,7 @@ def eps(request, endpoint):
         obj["stream_link"] = tools.get_media_src(stream_link)
     else:
         obj["stream_link"] = stream_link
-    
+        
     obj["mirror_stream_link"] = []
     mrr = soup.find(class_="mirrorstream").find_all("ul")
     for mr in mrr:
@@ -251,6 +246,67 @@ def eps(request, endpoint):
             'i': f"heading-{i +1}"
         })
         i=i+1
+    return obj
+
+def jadwal_rilis(request):
+    obj = {}
+    obj["title"] = "Jadwal Rilis Anime"
+    
+    res = tools.get(f"{baseURL}/jadwal-rilis")
+    data = res.text.replace(prox, baseURL).replace(proxq, "")
+    soup = BeautifulSoup(data, "html.parser")
+    
+    obj["schedule"] = []
+    schedules = soup.find_all(class_="kglist321")
+    for sch in schedules:
+        temp = {}
+        temp["day"] = sch.find("h2").text.strip()
+        temp["animes"] = []
+        
+        animes = sch.find_all("li")
+        for anime in animes:
+            data = {
+                'title': anime.find("a").text.strip(),
+                'url': anime.find("a").get("href"),
+                'endpoint': anime.find("a").get("href").replace(baseURL, "").replace(prox, "").replace(proxq, "")
+            }
+            temp["animes"].append(data)
+        obj["schedule"].append(temp)
+            
+    return obj
+
+def daftar_anime(request):
+    response = tools.get(f"{baseURL}/anime-list")
+    data = response.text.replace(prox, baseURL).replace(proxq, "")
+    soup = BeautifulSoup(data, "html.parser")
+    
+    obj = {}
+    obj["title"] = "Anime List"
+    
+    obj["anime_list"] = []
+    dftkrtn = soup.find(class_="daftarkartun")
+    paragraf = dftkrtn.find_all(class_="bariskelom")
+    for parag in paragraf:
+        name = parag.find(class_="barispenz").find("a").text
+        animes = parag.find_all(class_="penzbar")
+        
+        par = []
+        for anime in animes:
+            temp = {}
+            info = anime.find("a")
+            if info == None:
+                continue
+            temp["title"] = info.get("title")
+            temp["url"] = info.get("href")
+            temp["endpoint"] = info.get("href").replace(baseURL, "").replace(prox, "").replace(proxq, "")
+            
+            par.append(temp)
+        
+        obj["anime_list"].append({
+            'name': name,
+            'animes': par
+        })
+            
     return obj
 
 def reverse_proxy(request, url):

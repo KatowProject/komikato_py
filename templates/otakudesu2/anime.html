@@ -1,0 +1,88 @@
+{% include "layout2/header.html" %}
+    <script>
+        document.title = "{{ title }} • Komikindo";
+    </script>
+    <div id="main">
+        <div class="inner">
+            <!-- Header -->
+            <header id="header">
+
+                <a href="/" class="logo"><strong>Komikato</strong></a>
+                <ul class="icons">
+                    <li><a href="//github.com/KatowProject" class="icon brands fa-github"><span class="label">Github</span></a></li>
+                </ul>
+            </header>
+
+            <!-- Section -->
+            <section>
+                <header class="main">
+                    <h1>{{ main_title }}</h1>
+                </header>
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img src="{{ thumb }}" class="img-fluid rounded" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <ul class="list-group">
+                                <li class="list-group-item text-sm-left"><b>Japanese:</b>{{ japanese }}</li>
+                                <li class="list-group-item text-sm-left"><b>Status:</b> {{ status }}</li>
+                                <li class="list-group-item text-sm-left"><b>Produser:</b> {{ producer }}</li>
+                                <li class="list-group-item text-sm-left"><b>Episode:</b> {{ episodes }}</li>
+                                <li class="list-group-item text-sm-left"><b>Genre:</b>{{ genre }}</li>
+                                <li class="list-group-item text-sm-left"><b>Score:</b>⭐{{ skor }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <hr>
+    
+                    <div class="row">
+                        <div class="col-sm-12">
+                            {% for s in sinopsis %}
+                                <p>{{ s }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <hr class="major">
+                    <h2> Chapter List </h2>
+                    <div class="table-wrapper modl" style="overflow-x:scroll; height:400px;">
+                        <table class="table-alt">
+                            <tbody>
+                            {% for ep in eps %}
+                                {% if ep.type == 'List' %}
+                                    {% for episode in ep.data %}
+                                        <tr>    
+                                            <td>{{ episode.title }}</td>
+                                            <td><a type="button" class="button fit" href="/otakudesu/eps/{{ episode.endpoint }}" target="_blank">Nonton</a></td>
+                                        </tr>    
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+	<div id="sidebar">
+		<div class="inner">
+				<!-- Search -->
+            <section id="search" class="alt" data-source="komikindo">
+				<form name="search" action="">
+					<input type="text" name="query" id="query" placeholder="Search" required="">
+				</form>
+			</section>
+
+            {% include 'layout2/navbar.html' %}
+				<!-- Footer -->
+			<footer id="footer">
+				<p class="copyright">&copy; KatowProject. All rights reserved. Design: <a
+							href="https://html5up.net">HTML5 UP</a>.</p>
+			</footer>
+		</div>
+	</div>
+{% include "layout2/footer.html" %}
