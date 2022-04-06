@@ -25,15 +25,15 @@ def get(url, options={}):
             return response
         
         if "otakudesu" in url:
-            url = url.replace("otakudesu.site", "otakudesu-site.translate.goog")
-            if "?" in url:
-                response = req.get(url + "&_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=id", params=options)
-            else:
-                response = req.get(url + "?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=id", params=options)
+            url_base64 = base64.b64encode(url.encode('utf-8'))
+            response = req.get("https://bypass.kato-rest.us/?q=" + url_base64.decode('utf-8'))
+            # url = url.replace("otakudesu.site", "otakudesu-site.translate.goog")
+            # if "?" in url:
+            #     response = req.get(url + "&_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=id", params=options)
+            # else:
+            #     response = req.get(url + "?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=id", params=options)
             
             return response
-        # url_base64 = base64.b64encode(url.encode('utf-8'))
-        # response = req.get("https://bypass.kato-rest.us/url/" + url_base64.decode('utf-8'))
         
 def get_media_src(url):
     response = get(url)
