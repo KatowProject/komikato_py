@@ -162,7 +162,7 @@ def eps(request, endpoint):
     else:
         mirror = ""
         
-    response = tools.get(f"{baseURL}/{endpoint}{mirror}")
+    response = tools.get(f"{baseURL}{endpoint}/{mirror}")
     data = response.text.replace(prox, baseURL).replace(proxq, "")
     soup = BeautifulSoup(data, "html.parser")
     

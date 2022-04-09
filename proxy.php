@@ -1,6 +1,8 @@
 <?php
 $query = $_GET['q'];
 if ($query == "") :
+    header('Content-Type: application/json');
+
     echo json_encode([
         "status" => "error",
         "message" => "No query specified"
@@ -15,6 +17,12 @@ curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 $output = curl_exec($ch);
 $getHeader = curl_getinfo($ch);
+
+if ($getHeader["redirect_url"] != "") :
+    $url = $getHeader["redirect_url"];
+    curl_setopt($ch, CURLOPT_URL, $url);
+    $output = curl_exec($ch);
+endif;
 
 if ($output === '') :
     $error = curl_error($ch);
