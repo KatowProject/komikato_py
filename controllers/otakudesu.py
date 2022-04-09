@@ -309,6 +309,55 @@ def daftar_anime(request):
             
     return obj
 
+def complete_anime(request, page):
+    response = tools.get(f"{baseURL}complete-anime/page/{page}")
+    data = response.text.replace(prox, baseURL).replace(proxq, "")
+    soup = BeautifulSoup(data, "html.parser")
+    main = soup.find(id="venkonten")
+    
+    obj = {}
+    obj["title"] = "Complete Anime"
+    
+    obj["animes"] = []
+    animes = main.find(class_="venz").find_all("li")
+    for anime in animes:
+        name = anime.find(class_="thumbz").find("h2").text
+        thumb = anime.find(class_="thumbz").find("img").get("src")
+        eps = anime.find(class_="epz").text
+        score = anime.find(class_="epztipe").text
+        date = anime.find(class_="newnime").text
+        url = anime.find(class_="thumb").find("a").get("href")
+        endpoint = anime.find(class_="thumb").find("a").get("href").replace(baseURL, "").replace(prox, "").replace(proxq, "")
+        
+        obj["animes"].append({
+            'name': name,
+            'thumb': thumb,
+            'episode_name': eps,
+            'score': score,
+            'release': date,
+            'url': url,
+            'endpoint': endpoint
+        })
+        
+    obj["pagination"] = []
+    pagination = main.find(class_="pagination").find_all(class_="page-numbers")
+    for page in pagination:
+        name = page.text
+        url = page.get("href")
+        
+        endpoint = None
+        if url is not None:
+            endpoint = url.replace(baseURL, "").replace(prox, "").replace(proxq, "")
+        
+        obj["pagination"].append({
+            'name': name,
+            'url': url,
+            'endpoint': endpoint
+        })
+        
+        
+    return obj
+
 def reverse_proxy(request, url):
     response = tools.reverse_proxy(url)
     

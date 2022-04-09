@@ -22,3 +22,6 @@ def jadwal_rilis(request):
 
 def daftar_anime(request):
     return HttpResponse(json.dumps(otakudesu.daftar_anime(request)), content_type="application/json")
+
+def complete_anime(request, page=1):
+    return HttpResponse(json.dumps(otakudesu.complete_anime(request, page)), content_type="application/json")

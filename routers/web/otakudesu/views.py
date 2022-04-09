@@ -29,3 +29,7 @@ def daftar_anime(request):
 def reverse_proxy(request):
     url = request.GET.get('url')
     return otakudesu.reverse_proxy(request, url)
+
+def complete_anime(request, page=1):
+    complete_anime = otakudesu.complete_anime(request, page)
+    return render(request, 'otakudesu2/complete-anime.html', context=complete_anime)
