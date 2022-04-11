@@ -22,4 +22,5 @@ urlpatterns = [
     path('otakudesu/', include('routers.web.otakudesu.urls')),
     path('api/komikindo/', include('routers.api.komikindo.urls')),
     path('api/otakudesu/', include('routers.api.otakudesu.urls')),
+    path('api/mangabat/', include('routers.api.mangabat.urls')),
 ]

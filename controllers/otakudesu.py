@@ -1,5 +1,3 @@
-from gettext import find
-from urllib import response
 import tools
 from bs4 import BeautifulSoup
 baseURL = "https://otakudesu.site/"
