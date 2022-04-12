@@ -1,7 +1,4 @@
-{% include "layout2/header.html" %}
-    <script>
-        document.title = "Not Found • Komikato"
-    </script>
+{% include "layout2/header.html" with title="Not Found • Komikato" %}
     <div id="main">
         <div class="inner">
             <!-- Header -->
@@ -29,11 +26,6 @@
     <div id="sidebar">
         <div class="inner">
             {% include 'layout2/navbar.html' %}
-            <!-- Footer -->
-            <footer id="footer">
-                <p class="copyright">&copy; KatowProject. All rights reserved. Design: <a
-                        href="https://html5up.net">HTML5 UP</a>.</p>
-            </footer>
         </div>
     </div>
 {% include "layout2/footer.html" %}

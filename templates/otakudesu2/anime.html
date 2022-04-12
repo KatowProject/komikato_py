@@ -1,7 +1,4 @@
-{% include "layout2/header.html" %}
-    <script>
-        document.title = "{{ title }} • Komikindo";
-    </script>
+{% include "layout2/header.html" with {'title':'{{ title }} • Komikindo'} %}
     <div id="main">
         <div class="inner">
             <!-- Header -->
@@ -78,11 +75,6 @@
 			</section>
 
             {% include 'layout2/navbar.html' %}
-				<!-- Footer -->
-			<footer id="footer">
-				<p class="copyright">&copy; KatowProject. All rights reserved. Design: <a
-							href="https://html5up.net">HTML5 UP</a>.</p>
-			</footer>
 		</div>
 	</div>
 {% include "layout2/footer.html" %}

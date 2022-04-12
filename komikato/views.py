@@ -2,4 +2,6 @@ from django.shortcuts import render
 
 def index(request):
     return render(request, 'index2.html', context={})
-    
+
+def handle_not_found(request, exception):
+    return render(request, '404.html', context={})

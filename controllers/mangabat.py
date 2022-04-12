@@ -1,6 +1,4 @@
-import json
-from tkinter.ttk import Style
-from urllib import response
+from urllib.parse import urlparse
 import tools
 from bs4 import BeautifulSoup
 baseURL = "https://m.mangabat.com/"
@@ -79,7 +77,11 @@ def comic(request, endpoint):
     is404 = soup.find(style="font: 700 22px sans-serif;")
     if is404 is not None and "404" in is404.text:
         response = tools.get(f"https://read.mangabat.com/{endpoint}")
-        soup = BeautifulSoup(response.text, "html.parser")
+        soup = BeautifulSoup(response.text.replace("https://read.mangabat.com/", baseURL), "html.parser")
+        is404 = soup.find(style="font: 700 22px sans-serif;")
+        
+        if is404 is not None and "404" in is404.text:
+            return { 'success': False, 'statusCode': 404 }
         
     obj = {}
     main = soup.find(class_="body-site")
@@ -126,8 +128,36 @@ def comic(request, endpoint):
         endpoint = url.replace(baseURL, "")
         
         obj["chapters"].append({ 'name': name, 'date': date, 'url': url, 'endpoint': endpoint })
+        
     return obj
 
+def chapter(request, endpoint):
+    response = tools.get(f"{baseURL}{endpoint}")
+    soup = BeautifulSoup(response.text, "html.parser")
+    
+    is404 = soup.find(style="font: 700 22px sans-serif;")
+    if is404 is not None and "404" in is404.text:
+        response = tools.get(f"https://read.mangabat.com/{endpoint}")
+        soup = BeautifulSoup(response.text, "html.parser")
+        is404 = soup.find(style="font: 700 22px sans-serif;")
+        
+        if is404 is not None and "404" in is404.text:
+            return { 'success': False, 'statusCode': 404 }
+    
+    obj = {}
+    
+    obj["title"] = soup.find(class_="panel-chapter-info-top").find("h1").text.capitalize()
+    
+    obj["chapters"] = []
+    chapters = soup.find(class_="container-chapter-reader").find_all("img")
+    for chapter in chapters:
+        image = chapter.get("src").replace("https://", "")
+        uri = f"https://cdn-mangabat.katowproject.workers.dev/{image}"
+        
+        obj["chapters"].append(uri)
+        
+    return obj
+    
     
     
     

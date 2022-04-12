@@ -10,3 +10,6 @@ def home(request):
 
 def comic(request, endpoint):
     return HttpResponse(json.dumps(mangabat.comic(request, endpoint)), content_type="application/json")
+
+def chapter(request, endpoint):
+    return HttpResponse(json.dumps(mangabat.chapter(request, endpoint)), content_type="application/json")

@@ -1,5 +1,6 @@
-{% include 'layout2/header.html' %}
+{% comment %} include with data {% endcomment %}
 
+{% include 'layout2/header.html' with title="Home · Komikato" only%}
 		<!-- Main -->
 		<div id="main">
 			<div class="inner">
@@ -47,12 +48,6 @@
 		<div id="sidebar">
 			<div class="inner">
 				{% include 'layout2/navbar.html' %}
-				
-				<!-- Footer -->
-				<footer id="footer">
-					<p class="copyright">&copy; KatowProject. All rights reserved. Design: <a
-							href="https://html5up.net">HTML5 UP</a>.</p>
-				</footer>
 			</div>
 		</div>
 

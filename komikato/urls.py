@@ -24,3 +24,5 @@ urlpatterns = [
     path('api/otakudesu/', include('routers.api.otakudesu.urls')),
     path('api/mangabat/', include('routers.api.mangabat.urls')),
 ]
+
+handler404 = views.handle_not_found
