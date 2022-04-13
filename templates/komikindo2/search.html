@@ -1,70 +1,62 @@
-{% include 'layout2/header.html' %}
-        <script>
-            document.title = 'Komikindo • Search';
-        </script>
-		<!-- Main -->
-		<div id="main">
-			<div class="inner">
-				<!-- Header -->
-				<header id="header">
+{% extends 'layout2/base.html' %}
 
-					<a href="/" class="logo"><strong>Komikato</strong></a>
-					<ul class="icons">
-						<li><a href="//github.com/KatowProject" class="icon brands fa-github"><span class="label">Github</span></a></li>
+{% block title %}
+	<title>Komikindo • Search</title>
+{% endblock %}
+
+{% block property %}
+	<meta property="og:title" content="Komikindo • Search" />
+	<meta property="og:description" content="Hasil Pencarian Komik" />
+	<meta property="og:url" content="{{ url }}" />
+	<meta property="og:site_name" content="Komikato" />
+	<meta property="og:image" content="/assets/image/komikindo.png" />
+	<meta property="og:image:secure_url" content="/assets/image/komikindo.png" />
+	<meta property="og:image:alt" content="search_image" />
+	<meta property="og:image:type" content="image/png" />
+{% endblock %}
+
+{% block content %}
+	<section>
+		<header class="major">
+			<h2>Hasil Pencarian</h2>
+		</header>
+
+		<div class="posts">
+			{% for manga in mangas %}
+				<article>
+					<a href="#" class="image center-cropped"><img src="{{manga.thumb}}" alt="" /></a>
+					<h3>{{ manga.name }}</h3>  
+					<p>Baca {{ manga.name }}</p>
+
+					<ul class="actions">
+						<li><a class="button" href="/komikindo/{{ manga.link.endpoint }}">More</a></li>
 					</ul>
-				</header>
-
-				<!-- Section -->
-				<section>
-					<header class="major">
-						<h2>Hasil Pencarian</h2>
-					</header>
-					<div class="posts">
-                        {% for manga in mangas %}
-                        <article>
-                            <a href="#" class="image center-cropped"><img
-                                src="{{manga.thumb}}" alt="" /></a>
-                            <h3>{{ manga.name }}</h3>  
-                            <p>Baca {{ manga.name }}</p>
-                            <ul class="actions">
-								<li><a class="button" href="/komikindo/{{ manga.link.endpoint }}">More</a></li>
-                            </ul>
-                        </article>
-                        {% endfor %}
-					</div>
-				</section>
-                
-                <section>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <ul class="pagination justify-content-center">
-                            {% for page in pagination %}
-                                {% if page.url == None and page.endpoint == None %}
-                                    <li><a class="page active">{{ page.name }}</a></li>
-                                {% else %}
-                                    <li><a class="page" href="/komikindo/{{ page.endpoint}}">{{ page.name }}</a></li>
-                                {% endif %}
-                            {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
-                </section>
+				</article>
+			{% endfor %}
+		</div>
+	</section>
+					
+	<section>
+		<div class="row">
+			<div class="col-sm-12">
+				<ul class="pagination justify-content-center">
+					{% for page in pagination %}
+						{% if page.url == None and page.endpoint == None %}
+							<li><a class="page active">{{ page.name }}</a></li>
+						{% else %}
+							<li><a class="page" href="/komikindo/{{ page.endpoint}}">{{ page.name }}</a></li>
+						{% endif %}
+					{% endfor %}
+				</ul>
 			</div>
 		</div>
+	</section>
+{% endblock %}
 
-		<!-- Sidebar -->
-		<div id="sidebar">
-			<div class="inner">
-
-				<!-- Search -->
-				<section id="search" class="alt" data-source="komikindo">
-					<form name="search" action="">
-						<input type="text" name="query" id="query" placeholder="Search" required="">
-					</form>
-				</section>
-
-                {% include 'layout2/navbar.html' %}
-			</div>
-		</div>
-
-{% include 'layout2/footer.html' %}
+{% block search %}
+    <section id="search" class="alt" data-source="komikindo">
+        <form name="search" action>
+            <input type="text" name="query" id="query" placeholder="Search" required>
+        </form>
+    </section>
+{% endblock %}

@@ -23,6 +23,7 @@ def home(request):
     soup = BeautifulSoup(data, 'html.parser')
     
     obj = {}
+    obj["url"] = request.build_absolute_uri()
     obj["menu"] = []
     mangas_menu = soup.find(id="menu-second-menu").find_all("li")
     for manga in mangas_menu:
@@ -84,6 +85,7 @@ def daftar_komik(request, page):
     obj = {}
     mangas = soup.find_all("div", {"class": "animepost"})
     
+    obj["url"] = request.build_absolute_uri()
     obj["mangas"] = []
     for manga in mangas:
         
@@ -117,6 +119,7 @@ def komik_terbaru(request, page):
     obj = {}
     mangas = soup.find_all("div", {"class": "animepost"})
     
+    obj["url"] = request.build_absolute_uri()
     obj["mangas"] = []
     for manga in mangas:
         
@@ -159,6 +162,7 @@ def komik(request, type, page):
     soup = BeautifulSoup(data, 'html.parser')
     
     obj = {}
+    obj["url"] = request.build_absolute_uri()
     mangas = soup.find_all("div", {"class": "animepost"})
     obj["type"] = type
     obj["mangas"] = []
@@ -194,6 +198,7 @@ def komik_detail(request, endpoint):
     soup = BeautifulSoup(data, 'html.parser')
     
     obj = {}
+    obj["url"] = request.build_absolute_uri()
     manga = soup.find(class_="postbody")
     obj["title"] = manga.find(class_="entry-title").text.replace("Komik ","")
     obj["thumb"] = manga.find(class_="thumb").find("img").get("src").split("?")[0]
@@ -241,6 +246,7 @@ def search(request, query):
     soup = BeautifulSoup(data, 'html.parser')
     
     obj = {}
+    obj["url"] = request.build_absolute_uri()
     mangas = soup.find_all("div", {"class": "animepost"})
     
     obj["mangas"] = []
@@ -287,6 +293,8 @@ def chapter(request, endpoint):
     reschap = tools.get(chapter_link)
     res = json.loads(reschap.text)
     obj["title"] = res["title"]["rendered"]
+    obj["thumb"] = manga.find("meta", {"property": "og:image"}).get("content")
+    obj["url"] = request.build_absolute_uri()
     
     soupp = BeautifulSoup(res["content"]["rendered"], 'html.parser')
     obj["images"] = []

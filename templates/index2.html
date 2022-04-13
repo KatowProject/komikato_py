@@ -1,54 +1,32 @@
-{% comment %} include with data {% endcomment %}
+{% extends 'layout2/base.html' %}
 
-{% include 'layout2/header.html' with title="Home · Komikato" only%}
-		<!-- Main -->
-		<div id="main">
-			<div class="inner">
+{% block content %}
+<section>
+    <header class="major">
+        <h2>Scraping List</h2>
+    </header>
+        
+    <div class="posts">
+        <article>
+            <a href="#" class="image justify"><img src="/assets/image/komikindo.png" alt="" /></a>
+			<h3>Komikindo</h3>
+			<p>Baca Manga di Komikindo.</p>
+			
+			<ul class="actions">
+				<li><a href="/komikindo" class="button">More</a></li>
+			</ul>
+    	</article>
+        
+		<article>
+			<a href="#" class="image justify"><img src="/assets/image/otakudesu.png" alt="" /></a>
+			<h3>Otakudesu</h3>
+			<p>Nonton Anime di Otakudesu.</p>
+									
+			<ul class="actions">
+				<li><a href="/otakudesu" class="button">More</a></li>
+			</ul>
+		</article>
+    </div>
+</section>
 
-				<!-- Header -->
-				<header id="header">
-
-					<a href="/" class="logo"><strong>Komikato</strong></a>
-					<ul class="icons">
-						<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-					</ul>
-				</header>
-
-				<!-- Section -->
-				<section>
-					<header class="major">
-						<h2>Scraping List</h2>
-					</header>
-					<div class="posts">
-						<article>
-							<a href="#" class="image justify"><img
-									src="/assets/image/komikindo.png" alt="" /></a>
-							<h3>Komikindo</h3>
-							<p>Baca Manga di Komikindo.</p>
-							<ul class="actions">
-								<li><a href="/komikindo" class="button">More</a></li>
-							</ul>
-						</article>
-						<article>
-							<a href="#" class="image justify"><img
-									src="/assets/image/otakudesu.png" alt="" /></a>
-							<h3>Otakudesu</h3>
-							<p>Nonton Anime di Otakudesu.</p>
-							<ul class="actions">
-								<li><a href="/otakudesu" class="button">More</a></li>
-							</ul>
-						</article>
-					</div>
-				</section>
-
-			</div>
-		</div>
-
-		<!-- Sidebar -->
-		<div id="sidebar">
-			<div class="inner">
-				{% include 'layout2/navbar.html' %}
-			</div>
-		</div>
-
-{% include 'layout2/footer.html' %}
+{% endblock%}

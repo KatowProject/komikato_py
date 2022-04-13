@@ -15,7 +15,7 @@ def home(request):
     soup = BeautifulSoup(data, "html.parser")
     
     obj = {}
-    
+    obj["url"] = request.build_absolute_uri()
     obj["ongoing"] = []
     animes = soup.find(class_="venz").find_all("li")
     for anime in animes:
@@ -52,7 +52,7 @@ def search(request, query):
     soup = BeautifulSoup(data, "html.parser")
     
     obj = {}
-    
+    obj["url"] = request.build_absolute_uri()
     obj["animes"] = []
     animes = soup.find(class_="chivsrc").find_all("li")
     for anime in animes:
@@ -83,6 +83,7 @@ def detail(request, endpoint):
     obj = {}
     obj["main_title"] = soup.find(class_="jdlrx").find("h1").text.strip()
     obj["thumb"] = soup.find(class_="wp-post-image").get("src")
+    obj["url"] = request.build_absolute_uri()
     obj["title"] = soup.find(class_="infozingle").find_all("p")[0].text.split(":")[1].strip()
     obj["japanese"] = soup.find(class_="infozingle").find_all("p")[1].text.split(":")[1].strip()
     obj["skor"] = soup.find(class_="infozingle").find_all("p")[2].text.split(":")[1].strip()
@@ -167,7 +168,9 @@ def eps(request, endpoint):
     obj = {}
     
     obj["title"] = soup.find(class_="venutama").find(class_="posttl").text.strip()
-    
+    obj["main_title"] = obj["title"].split("Episode")[0].strip()
+    obj["thumb"] = soup.find(class_="cukder").find("img").get("src")
+    obj["url"] = request.build_absolute_uri()
     obj["eps_list"] = []
     eps = soup.find(id="selectcog").find_all("option")
     for ep in eps:
@@ -249,6 +252,7 @@ def eps(request, endpoint):
 def jadwal_rilis(request):
     obj = {}
     obj["title"] = "Jadwal Rilis Anime"
+    obj["url"] = request.build_absolute_uri()
     
     res = tools.get(f"{baseURL}/jadwal-rilis")
     data = res.text.replace(prox, baseURL).replace(proxq, "")
@@ -280,6 +284,7 @@ def daftar_anime(request):
     
     obj = {}
     obj["title"] = "Anime List"
+    obj["url"] = request.build_absolute_uri()
     
     obj["anime_list"] = []
     dftkrtn = soup.find(class_="daftarkartun")
@@ -315,6 +320,7 @@ def complete_anime(request, page):
     
     obj = {}
     obj["title"] = "Complete Anime"
+    obj["url"] = request.build_absolute_uri()
     
     obj["animes"] = []
     animes = main.find(class_="venz").find_all("li")

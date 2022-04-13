@@ -1,74 +1,75 @@
-{% include "layout2/header.html" %}
-    <script>
-        document.title = "Komik {{ title }} • Komikindo";
-    </script>
-    <div id="main">
-        <div class="inner">
-            <!-- Header -->
-            <header id="header">
+{% extends 'layout2/base.html' %}
 
-                <a href="/" class="logo"><strong>Komikato</strong></a>
-                <ul class="icons">
-                    <li><a href="//github.com/KatowProject" class="icon brands fa-github"><span class="label">Github</span></a></li>
-                </ul>
-            </header>
+{% block title %}
+    <title>Komik {{ title }} • Komikindo</title>
+{% endblock %}
 
-            <!-- Section -->
-            <section>
-                <header class="main">
-                    <h1>{{ title }}</h1>
-                </header>
+{% block property %}
+    <meta property="og:title" content="{{ title }}" />
+    <meta property="og:description" content="Baca komik {{ title }}" />
+    <meta property="og:url" content="{{ url }}" />
+    <meta property="og:site_name" content="Komikato" />
+    <meta property="og:image" content="{{ thumb }}" />
+    <meta property="og:image:secure_url" content="{{ thumb }}" />
+    <meta property="og:image:alt" content="kato_image" />
+    <meta property="og:image:type" content="image/png" />
+{% endblock %}
 
-                <div class="btn-group btn-block">
-                    {% if chapter.prev != None %}
-                        <a href='/komikindo/chapter/{{chapter.prev}}' class='button fit'>Previous</a>
-                    {% else %}
-                        <a href='#' class='button fit'>Previous</a>
-                    {% endif %}
-                    &nbsp;
-                    {% if chapter.next != None %}
-                        <a href='/komikindo/chapter/{{chapter.next}}' class='button fit'>Next</a>
-                    {% else %}
-                        <a href='#' class='button fit disabled'>Next</a>
-                    {% endif %}
-                </div>
+{% block content %}
+    <section>
+        <header class="main">
+            <h1>{{ title }}</h1>
+        </header>
 
-                <hr>
-                <span class="image main chapter">
-                {% for image in images %}
-                    <img src="{{ image }}" alt="">
-                {% endfor %}
-                </span>
-                <hr>
-
-                <div class="btn-group btn-block">
-                    {% if chapter.prev != None %}
-                        <a href='/komikindo/chapter/{{chapter.prev}}' class='button fit'>Previous</a>
-                    {% else %}
-                        <a href='#' class='button fit'>Previous</a>
-                    {% endif %}
-                    &nbsp;
-                    {% if chapter.next != None %}
-                        <a href='/komikindo/chapter/{{chapter.next}}' class='button fit'>Next</a>
-                    {% else %}
-                        <a href='#' class='button fit disabled'>Next</a>
-                    {% endif %}
-                </div>
-            </section>
+        <div class="btn-group btn-block">
+            {% if chapter.prev != None %}
+                <a href='/komikindo/chapter/{{chapter.prev}}' class='button fit'>Previous</a>
+            {% else %}
+                <a href='#' class='button fit'>Previous</a>
+            {% endif %}
+            &nbsp;
+            {% if chapter.next != None %}
+                <a href='/komikindo/chapter/{{chapter.next}}' class='button fit'>Next</a>
+            {% else %}
+                <a href='#' class='button fit disabled'>Next</a>
+            {% endif %}
         </div>
-    </div>
 
-    <!-- Sidebar -->
-	<div id="sidebar">
-		<div class="inner">
-				<!-- Search -->
-            <section id="search" class="alt" data-source="komikindo">
-				<form name="search" action="">
-					<input type="text" name="query" id="query" placeholder="Search" required="">
-				</form>
-			</section>
+        <hr>
 
-            {% include 'layout2/navbar.html' %}
-		</div>
-	</div>
-{% include "layout2/footer.html" %}
+        <span class="image main chapter">
+            {% for image in images %}
+                <img src="{{ image }}" alt="">
+            {% endfor %}
+        </span>
+            <hr>
+
+        <div class="btn-group btn-block">
+            {% if chapter.prev != None %}
+                <a href='/komikindo/chapter/{{chapter.prev}}' class='button fit'>Previous</a>
+            {% else %}
+                <a href='#' class='button fit'>Previous</a>
+            {% endif %}
+            &nbsp;
+            {% if chapter.next != None %}
+                <a href='/komikindo/chapter/{{chapter.next}}' class='button fit'>Next</a>
+            {% else %}
+                <a href='#' class='button fit disabled'>Next</a>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}
+
+{% block settings %}
+    <button type="button" class="button primary" id="btn-brightness">
+        <i class="fas fa-circle-half-stroke"></i>
+    </button>
+{% endblock %}
+
+{% block search %}
+    <section id="search" class="alt" data-source="komikindo">
+        <form name="search" action>
+            <input type="text" name="query" id="query" placeholder="Search" required>
+        </form>
+    </section>
+{% endblock %}

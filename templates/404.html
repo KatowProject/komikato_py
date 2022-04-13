@@ -1,31 +1,26 @@
-{% include "layout2/header.html" with title="Not Found • Komikato" %}
-    <div id="main">
-        <div class="inner">
-            <!-- Header -->
-            <header id="header">
+{% extends 'layout2/base.html' %}
 
-                <a href="/" class="logo"><strong>Komikato</strong></a>
-                <ul class="icons">
-                    <li><a href="//github.com/KatowProject" class="icon brands fa-github"><span class="label">Github</span></a></li>
-                </ul>
-            </header>
+{% block title %}
+    <title> Not Found • Komikato </title>
+{% endblock %}
 
-            <!-- Section -->
-            <section>
-                <header class="major">
-                    <h2>404 Not Found</h2>
-                </header>
-                <p>The page you are looking for might have been removed had its name changed or is temporarily unavailable.</p>
+{% block property %}
+    <meta property="og:title" content="Not Found · Komikato" />
+    <meta property="og:description" content="Komikato, Animanga read and watch" />
+    <meta property="og:url" content="https://komi.kato-rest.us/" />
+    <meta property="og:site_name" content="Komikato" />
+    <meta property="og:image" content="/assets/image/404.png" />
+    <meta property="og:image:secure_url" content="/assets/image/404.png" />
+    <meta property="og:image:alt" content="Not Found" />
+    <meta property="og:image:type" content="image/png" />
+{% endblock %}
 
-                <span class="image main"><img src="/assets/image/menhera-thonk.gif" alt="" /></span>
-            </section>
-        </div>
-    </div>
-
-    <!-- Sidebar -->
-    <div id="sidebar">
-        <div class="inner">
-            {% include 'layout2/navbar.html' %}
-        </div>
-    </div>
-{% include "layout2/footer.html" %}
+{% block content %}
+    <section>
+        <header class="major">
+            <h2>404 Not Found</h2>
+        </header>
+        <p>The page you are looking for might have been removed had its name changed or is temporarily unavailable.</p>
+        <span class="image main"><img src="/assets/image/menhera-thonk.gif" alt="" /></span>
+    </section>
+{% endblock %}

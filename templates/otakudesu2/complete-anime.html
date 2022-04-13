@@ -1,70 +1,64 @@
-{% include 'layout2/header.html' %}
+{% extends 'layout2/base.html' %}
         <script>
             document.title = 'Otakudesu • Complete Anime';
         </script>
-		<!-- Main -->
-		<div id="main">
-			<div class="inner">
-				<!-- Header -->
-				<header id="header">
+{% block title %}
+	<title>Complete Anime • Otakudesu </title>
+{% endblock %}
 
-					<a href="/" class="logo"><strong>Komikato</strong></a>
-					<ul class="icons">
-						<li><a href="//github.com/KatowProject" class="icon brands fa-github"><span class="label">Github</span></a></li>
+{% block property %}
+	<meta property="og:title" content="Otakudesu • Complete Anime" />
+	<meta property="og:description" content="Complete Anime otakudesu" />
+	<meta property="og:url" content="{{ url }}" />
+	<meta property="og:site_name" content="Komikato" />
+	<meta property="og:image" content="/assets/image/otakudesu.png" />
+	<meta property="og:image:secure_url" content="/assets/image/otakudesu.png" />
+	<meta property="og:image:alt" content="otakudesu_image" />
+	<meta property="og:image:type" content="image/png" />
+{% endblock %}
+
+{% block content %}
+	<section>
+		<header class="major">
+			<h2>Complete Anime</h2>
+		</header>
+
+		<div class="posts">
+			{% for anime in animes %}
+				<article>
+					<a href="#" class="image center-cropped"><img src="{{anime.thumb}}" alt="{{ anime.name }}" /></a>
+					<h3>{{ anime.name }}</h3>  
+					<p>Nonton {{ anime.name }}</p>
+
+					<ul class="actions">
+						<li><a class="button" href="/otakudesu/{{ anime.endpoint }}">More</a></li>
 					</ul>
-				</header>
-
-				<!-- Section -->
-				<section>
-					<header class="major">
-						<h2>Complete Anime</h2>
-					</header>
-					<div class="posts">
-                        {% for anime in animes %}
-                        <article>
-                            <a href="#" class="image center-cropped"><img
-                                src="{{anime.thumb}}" alt="{{ anime.name }}" /></a>
-                            <h3>{{ anime.name }}</h3>  
-                            <p>Nonton {{ anime.name }}</p>
-                            <ul class="actions">
-								<li><a class="button" href="/otakudesu/{{ anime.endpoint }}">More</a></li>
-                            </ul>
-                        </article>
-                        {% endfor %}
-					</div>
-				</section>
-                
-                <section>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <ul class="pagination justify-content-center">
-                            {% for page in pagination %}
-                                {% if page.url == None and page.endpoint == None %}
-                                    <li><a class="page active">{{ page.name }}</a></li>
-                                {% else %}
-                                    <li><a class="page" href="/otakudesu/{{ page.endpoint}}">{{ page.name }}</a></li>
-                                {% endif %}
-                            {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
-                </section>
+				</article>
+			{% endfor %}
+		</div>
+	</section>
+					
+	<section>
+		<div class="row">
+			<div class="col-sm-12">
+				<ul class="pagination justify-content-center">
+					{% for page in pagination %}
+						{% if page.url == None and page.endpoint == None %}
+							<li><a class="page active">{{ page.name }}</a></li>
+						{% else %}
+							<li><a class="page" href="/otakudesu/{{ page.endpoint}}">{{ page.name }}</a></li>
+						{% endif %}
+					{% endfor %}
+				</ul>
 			</div>
 		</div>
+	</section>
+{% endblock %}
 
-		<!-- Sidebar -->
-		<div id="sidebar">
-			<div class="inner">
-
-				<!-- Search -->
-				<section id="search" class="alt" data-source="otakudesu">
-					<form name="search" action>
-						<input type="text" name="query" id="query" placeholder="Search" required>
-					</form>
-				</section>
-
-                {% include 'layout2/navbar.html' %}
-			</div>
-		</div>
-
-{% include 'layout2/footer.html' %}
+{% block search %}
+    <section id="search" class="alt" data-source="otakudesu">
+        <form name="search" action="">
+            <input type="text" name="query" id="query" placeholder="Search" required="">
+        </form>
+    </section>
+{% endblock %}
