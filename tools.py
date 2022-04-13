@@ -16,7 +16,7 @@ def get(url, options={}):
         return response
     else:
         url_base64 = base64.b64encode(url.encode('utf-8'))
-        response = req.get("https://proxy.kato-rest.us/?q=" + url_base64.decode('utf-8'))
+        response = req.get("https://bypass.kato-rest.us/?q=" + url_base64.decode('utf-8'))
         # if "komikindo" in url:
         #     # url = url.replace("komikindo.id", "komikindo-id.translate.goog")
         #     # if "?" in url:
