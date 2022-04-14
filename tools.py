@@ -62,3 +62,8 @@ def reverse_proxy(url):
     response = req.get(url,)
     
     return response
+
+def to_base64(url):
+    url = base64.b64encode(url.encode('utf-8'))
+    
+    return url.decode('utf-8')
