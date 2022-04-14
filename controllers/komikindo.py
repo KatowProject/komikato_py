@@ -293,7 +293,7 @@ def chapter(request, endpoint):
     reschap = tools.get(chapter_link)
     res = json.loads(reschap.text)
     obj["title"] = res["title"]["rendered"]
-    obj["thumb"] = manga.find("meta", {"property": "og:image"}).get("content")
+    obj["thumb"] = manga.find("meta", {"property": "og:image"}).get("content").replace("https://komikcdn.me", "https://komikcdn-me.translate.goog")
     obj["url"] = request.build_absolute_uri()
     
     soupp = BeautifulSoup(res["content"]["rendered"], 'html.parser')
