@@ -6,4 +6,5 @@ urlpatterns = [
     path('home/', views.home, name='home'),
     path('comic/<str:endpoint>/', views.comic, name='comic'),
     path('chapter/<str:endpoint>/', views.chapter, name='api_chapter'),
+    path('search/<str:query>/', views.search, name='search'),
 ]

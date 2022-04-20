@@ -1,0 +1,26 @@
+{% extends 'layout2/base.html' %}
+
+{% block title %}
+    <title> Bad Request • Komikato </title>
+{% endblock %}
+
+{% block property %}
+    <meta property="og:title" content="Not Found · Komikato" />
+    <meta property="og:description" content="Komikato, Animanga read and watch" />
+    <meta property="og:url" content="https://komi.kato-rest.us/" />
+    <meta property="og:site_name" content="Komikato" />
+    <meta property="og:image" content="/assets/image/404.png" />
+    <meta property="og:image:secure_url" content="/assets/image/404.png" />
+    <meta property="og:image:alt" content="Not Found" />
+    <meta property="og:image:type" content="image/png" />
+{% endblock %}
+
+{% block content %}
+    <section>
+        <header class="major">
+            <h2>400 Bad Request</h2>
+        </header>
+        <p> Sorry, the page you are looking for is not available. </p>
+        <span class="image main"><img src="/assets/image/menhera-thonk.gif" alt="" /></span>
+    </section>
+{% endblock %}

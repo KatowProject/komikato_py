@@ -13,3 +13,6 @@ def comic(request, endpoint):
 
 def chapter(request, endpoint):
     return HttpResponse(json.dumps(mangabat.chapter(request, endpoint)), content_type="application/json")
+
+def search(request, query):
+    return HttpResponse(json.dumps(mangabat.search(request, query)), content_type="application/json")

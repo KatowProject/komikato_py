@@ -9,11 +9,14 @@ req = r#.Session()
 # })
 
 def get(url, options={}):
-    response = req.get(url, params=options)
+    response = req.get(url, headers=options.get("headers", {}), params=options.get("params", {}))
     # get status code
+    
     status = response.status_code
-    if (status == 200):
+    if status == 200:
         return response
+    elif status == 404:
+        return { 'success': False, 'statusCode': 404, 'message': "Not Found" }
     else:
         url_base64 = base64.b64encode(url.encode('utf-8'))
         response = req.get("https://bypass.kato-rest.us/?q=" + url_base64.decode('utf-8'))

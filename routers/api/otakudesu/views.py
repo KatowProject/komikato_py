@@ -2,6 +2,7 @@ import json
 import controllers.otakudesu as otakudesu
 from django.http import HttpResponse
 
+
 def index(request):
     return HttpResponse(json.dumps(otakudesu.index(request)), content_type="application/json")
 

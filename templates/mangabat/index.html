@@ -1,0 +1,98 @@
+{% extends 'layout2/base.html' %}
+{% load static %}
+{% block title %}
+	<title>Mangabat • Home</title> 
+{% endblock %}
+
+{% block property %}
+	<meta property="og:title" content="Home · Mangabat" />
+	<meta property="og:description" content="Baca Manga di Mangabat" />
+	<meta property="og:url" content="{{ url }}" />
+	<meta property="og:site_name" content="Komikato" />
+	<meta property="og:image" content="/assets/image/mangabat.png" />
+	<meta property="og:image:secure_url" content="/assets/image/mangabat.png" />
+	<meta property="og:image:alt" content="Komikindo" />
+	<meta property="og:image:type" content="image/png" />
+{% endblock %}
+
+{% block content %}
+	<section>
+		<header class="major">
+			<h2>Popular Manga</h2>
+		</header>
+
+    <div class="row mx-auto my-auto">
+        <div id="pop-carousel" class="carousel slide w-100" data-ride="carousel">
+            <div class="carousel-inner">
+                {% for manga in popular %}
+                    {% if forloop.counter == 1 %}
+                        <div class="carousel-item active">
+                          <div class="col-md-3">
+                            <div class="card mb-3" style="width: auto;">
+                                <img src="{{ manga.thumb }}" class="card-img-top" alt="">
+                                <div class="card-body">
+                                    <h5 class="card-title text-center">
+                                        {{ manga.name }}
+                                    </h5>
+                                    <a class="button" href="#">More</a>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                    {% else %}
+                        <div class="carousel-item">
+                          <div class="col-md-3">
+                            <div class="card mb-3" style="width: auto;">
+                                <img src="{{ manga.thumb }}" class="card-img-top" alt="">
+                                <div class="card-body">
+                                    <h5 class="card-title text-center">
+                                        {{ manga.name }}
+                                    </h5>
+                                    <a class="button" href="/mangabat/comic/{{ manga.endpoint }}">More</a>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <a class="carousel-control-prev" href="#pop-carousel" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#pop-carousel" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+	</section>
+
+  <section>
+		<header class="major">
+			<h2>Newest Manga</h2>
+		</header>
+
+		<div class="posts">
+			{% for manga in latest %}
+				<article>
+					<a href="#" class="image center-cropped"><img src="{{manga.thumb}}" alt="" /></a>
+						<h3>{{ manga.name }}</h3>  
+						<p>Baca {{ manga.name }}</p>
+						
+						<ul class="actions">
+							<li><a class="button" href="/mangabat/comic/{{ manga.endpoint }}">More</a></li>
+						</ul>
+				</article>
+			{% endfor %}
+		</div>
+	</section>
+{% endblock %}
+
+{% block search %}
+	<section id="search" class="alt" data-source="mangabat">
+		<form name="search" action>
+			<input type="text" name="query" id="query" placeholder="Search" required>
+		</form>
+	</section>
+{% endblock %}

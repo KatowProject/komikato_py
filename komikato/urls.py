@@ -20,9 +20,11 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('komikindo/', include('routers.web.komikindo.urls')),
     path('otakudesu/', include('routers.web.otakudesu.urls')),
+    path('mangabat/', include('routers.web.mangabat.urls')),
     path('api/komikindo/', include('routers.api.komikindo.urls')),
     path('api/otakudesu/', include('routers.api.otakudesu.urls')),
     path('api/mangabat/', include('routers.api.mangabat.urls')),
 ]
 
 handler404 = views.handle_not_found
+handler400 = views.handle_bad_request

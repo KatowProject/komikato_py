@@ -1,7 +1,9 @@
-from urllib.parse import urlparse
+import os
+from wsgiref import headers
 import tools
 from bs4 import BeautifulSoup
 baseURL = "https://m.mangabat.com/"
+altURL = "https://read.mangabat.com/"
 
 def index(request):
     response = tools.get(baseURL)
@@ -16,7 +18,7 @@ def home(request):
     
     obj = {}
     obj["title"] = "Home"
-    
+    obj["url"] = request.build_absolute_uri()
     obj["popular"] = []
     popular = main.find(id="owl-slider").find_all(class_="item")
     for manga in popular:
@@ -27,7 +29,7 @@ def home(request):
         
         chapter_name = manga.find_all("a")[1].text
         chapter_url = manga.find_all("a")[1].get("href")
-        chapter_endpoint = chapter_url.replace(baseURL, "")
+        chapter_endpoint = chapter_url.replace(baseURL, "").replace(altURL, "")
         
         obj["popular"].append({
             'name': name,
@@ -40,7 +42,7 @@ def home(request):
                'endpoint': chapter_endpoint
             }
         })
-        
+    
     obj["latest"] = []
     latest = main.find_all(class_="content-homepage-item")
     for manga in latest:
@@ -48,14 +50,14 @@ def home(request):
         thumb = manga.find("img").get("src")
         score = manga.find(class_="item-rate").text
         url = manga.find(class_="item-img").get("href")
-        endpoint = url.replace(baseURL, "")
+        endpoint = url.replace(baseURL, "").replace(altURL, "")
         
         arr_chapter = []
         chapters = manga.find_all(class_="item-chapter")
         for chapter in chapters:
             chapter_name = chapter.find("a").text
             chapter_url = chapter.find("a").get("href")
-            chapter_endpoint = chapter_url.replace(baseURL, "")
+            chapter_endpoint = chapter_url.replace(baseURL, "").replace(altURL, "")
 
             arr_chapter.append({ 'name': chapter_name, 'url': chapter_url, 'endpoint': chapter_endpoint })
         
@@ -119,13 +121,15 @@ def comic(request, endpoint):
     main.find(class_="panel-story-info-description").find("h3").decompose()
     obj["synopsis"] = main.find(class_="panel-story-info-description").text.strip()
     
+    response = tools.get(f"https://tachi.iqbalrifai.eu.org/api/v1/source/4215511432986138970/search?searchTerm={obj['name']}")
+    obj["tachi_id"] = response.json()["mangaList"][0]["id"]
     obj["chapters"] = []
     chapters = main.find(class_="row-content-chapter").find_all("li")
     for chapter in chapters:
         name = chapter.find("a").text
         date = chapter.find(class_="chapter-time text-nowrap").text
         url = chapter.find("a").get("href")
-        endpoint = url.replace(baseURL, "")
+        endpoint = url.replace(baseURL, "") + "/?id=" + str(obj["tachi_id"])
         
         obj["chapters"].append({ 'name': name, 'date': date, 'url': url, 'endpoint': endpoint })
         
@@ -157,6 +161,50 @@ def chapter(request, endpoint):
         obj["chapters"].append(uri)
         
     return obj
+
+def search(request, query):
+    page = request.GET.get("page", 1)
+    query = query.replace(" ", "_")
+    response = tools.get(f"{baseURL}/search/manga/{query}/?page={page}")
+    soup = BeautifulSoup(response.text, "html.parser")
+    main = soup.find(class_="body-site")
+    
+    obj = {}
+    
+    obj["mangas"] = []
+    mangas = main.find(class_="panel-list-story").find_all(class_="list-story-item")
+    for manga in mangas:
+        name = manga.find("a").get("title")
+        thumb = manga.find("img").get("src")
+        url = manga.find("a").get("href")
+        endpoint = url.replace(baseURL, "")
+        if "read.mangabat.com" in url:
+            endpoint = url.replace(altURL, "")
+            
+        obj["mangas"].append({ 'name': name, 'thumb': thumb, 'url': url, 'endpoint': endpoint })
+    
+    obj["pagination"] = []
+    pagination = main.find(class_="panel-page-number").find_all("a")
+    for page in pagination:
+        name = page.text
+        if "FIRST" in name:
+            name = "<< First Page"
+        elif "LAST" in name:
+            name = "Last Page >>"
+        url = page.get("href", None)
+        
+        endpoint = url
+        if url is None:
+            endpoint = None
+        elif "read.mangabat.com" in url:
+            endpoint = url.replace(altURL, "").replace("/manga", "")
+        elif "m.mangabat.com" in url:
+            endpoint = url.replace(baseURL, "").replace("/manga", "")
+            
+        obj["pagination"].append({ 'name': name, 'url': url, 'endpoint': endpoint })
+        
+    return obj
+    
     
     
     
