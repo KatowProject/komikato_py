@@ -432,20 +432,34 @@ $(document).ready(function () {
 					const findActive = chapter.find("img[style='display: block;']");
 					const prev = findActive.prev();
 					if (prev.length) {
-						findActive.css("display", "none");
-						prev.css("display", "block");
 						window.location.hash = prev.attr("id");
 					}
 				} else if (e.keyCode === 39) {
 					const findActive = chapter.find("img[style='display: block;']");
 					const next = findActive.next();
 					if (next.length) {
-						findActive.css("display", "none");
-						next.css("display", "block");
 						window.location.hash = next.attr("id");
 					}
 				}
 			});
+
+			$(".chapter > img").on("click", function (e) {
+				const elm = $(this);
+				const x = e.pageX - elm.offset().left;
+
+				const findActive = chapter.find("img[style='display: block;']");
+				if (x < elm.width() / 2) {
+					const prev = findActive.prev();
+					if (prev.length) {
+						window.location.hash = prev.attr("id");
+					}
+				} else {
+					const next = findActive.next();
+					if (next.length) {
+						window.location.hash = next.attr("id");
+					}
+				}
+			})
 			break;
 	}
 

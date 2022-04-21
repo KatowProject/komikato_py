@@ -56,6 +56,14 @@ table tbody tr:nth-child(2n + 1) {
         width: 450px;
         overflow: auto;
     }
+
+    #btn-option {
+        bottom: 100px;
+    }
+
+    #btn-brightness {
+        bottom: 60px;
+    }
 }
 
 .swal2-range input,
