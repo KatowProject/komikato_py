@@ -151,6 +151,8 @@ def chapter(request, endpoint):
     obj = {}
     
     obj["title"] = soup.find(class_="panel-chapter-info-top").find("h1").text.capitalize()
+    obj["thumb"] = soup.find("meta", property="og:image").get("content")
+    obj["synopsis"] = soup.find("meta", property="og:description").get("content")
     
     obj["chapters"] = []
     chapters = soup.find(class_="container-chapter-reader").find_all("img")
@@ -160,6 +162,20 @@ def chapter(request, endpoint):
         
         obj["chapters"].append(uri)
         
+    obj["chapter"] = {}
+    chapter_prev = soup.find(class_="navi-change-chapter-btn-prev")
+    chapter_next = soup.find(class_="navi-change-chapter-btn-next")
+    if chapter_prev is not None:
+        obj["chapter"]["prev"] = chapter_prev.get("href").replace(baseURL, "").replace(altURL, "")
+    else:
+        obj["chapter"]["prev"] = None
+        
+    if chapter_next is not None:
+        obj["chapter"]["next"] = chapter_next.get("href").replace(baseURL, "").replace(altURL, "")
+    else:
+        obj["chapter"]["next"] = None
+        
+    
     return obj
 
 def search(request, query):

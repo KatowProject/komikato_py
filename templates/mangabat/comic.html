@@ -1,0 +1,76 @@
+{% extends 'layout2/base.html' %}
+
+{% block title %}
+    <title>Comic {{ name }} • Mangabat</title>
+{% endblock %}
+
+{% block property %}
+    <meta property="og:title" content="{{ name }}" />
+    <meta property="og:description" content="{{ synopsis }}" />
+    <meta property="og:url" content="{{ url }}" />
+    <meta property="og:site_name" content="Komikato" />
+    <meta property="og:image" content="{{ thumb }}" />
+    <meta property="og:image:url" content="{{ thumb }}" />
+    <meta property="og:image:secure_url" content="{{ thumb }}" />
+    <meta property="og:image:alt" content="manga_image" />
+    <meta property="og:image:type" content="image/png" />
+{% endblock %}
+
+{% block content %}
+<section>
+    <header class="main">
+        <h1>{{ name }}</h1>
+    </header>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="{{ thumb }}" class="img-fluid rounded" alt="...">
+            </div>
+
+            <div class="col-md-8">
+                <ul class="list-group">
+                    <li class="list-group-item text-sm-left"><b>Alternate:</b>{{ alter }}</li>
+                    <li class="list-group-item text-sm-left"><b>Status:</b> {{ status }}</li>
+                    <li class="list-group-item text-sm-left"><b>Authors:</b> {% for author in authors %} {{ author.name }}, {% endfor %}</li>
+                    <li class="list-group-item text-sm-left"><b>Updated:</b> {{ updated }}</li>
+                    <li class="list-group-item text-sm-left"><b>Genre:</b>{% for genre in genres %} <a href="/mangabat/{{ genre.endpoint }}">{{ genre.name }}</a>, {% endfor %}</li>
+                    <li class="list-group-item text-sm-left"><b>Views:</b> {{ view }}</li>
+                </ul>
+            </div>
+        </div>
+
+        <hr>
+    
+        <div class="row">
+            <div class="col-sm-12">
+                <p>{{ synopsis }}</p>
+            </div>
+        </div>
+
+        <hr class="major">
+
+        <h2> Chapter List </h2>
+        <div class="table-wrapper modl" style="overflow-x:scroll; height:400px;">
+            <table class="table-alt">
+                <tbody>
+                    {% for chapter in chapters %}
+                        <tr>    
+                            <td>{{ chapter.name }}</td>
+                            <td><a type="button" class="button fit" href="/mangabat/chapter/{{ chapter.endpoint }}" target="_blank">Read</a></td>
+                        </tr>    
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block search %}
+    <section id="search" class="alt" data-source="mangabat">
+        <form name="search" action>
+            <input type="text" name="query" id="query" placeholder="Search" required>
+        </form>
+    </section>
+{% endblock %}

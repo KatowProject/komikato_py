@@ -16,6 +16,13 @@ html {
     display: block;
 }
 
+#btn-option {
+    position: fixed;
+    bottom: 120px;
+    right: 20px;
+    display: block;
+}
+
 .page-item.active>.page-link {
     border-color: grey;
 }
@@ -33,6 +40,10 @@ table tbody tr:nth-child(2n + 1) {
     border: 2px solid darkgrey;
     border-radius: 5px;
 
+}
+
+.swal2-styled.swal2-confirm {
+    background-color: transparent;
 }
 
 @media screen and (max-width: 768px) {

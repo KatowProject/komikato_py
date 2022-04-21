@@ -7,3 +7,6 @@ def index(request):
 
 def comic(request, endpoint):
     return render(request, 'mangabat/comic.html', context=mangabat.comic(request, endpoint))
+
+def chapter(request, endpoint):
+    return render(request, 'mangabat/chapter.html', context=mangabat.chapter(request, endpoint))

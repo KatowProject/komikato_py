@@ -37,6 +37,9 @@ const db = localStorage;
 			$body.find(".table-wrapper.modl").attr("style", "overflow-y: scroll; height:400px;");
 		}
 
+		const brightness = db.getItem("brightness");
+		$(".chapter").css("-webkit-filter", `brightness(${brightness}%)`);
+
 		$("body").on('DOMSubtreeModified', "output", function () {
 			const value = $(this).text();
 			db.setItem("brightness", value);
@@ -276,9 +279,6 @@ const db = localStorage;
 })(jQuery);
 
 $(document).ready(function () {
-	$("form").on("submit", function (e) {
-		const data = $(this).serialize();
-	});
 
 	$("#query").on("keyup", function (e) {
 		const value = $(this).val();
@@ -317,6 +317,44 @@ $(document).ready(function () {
 
 		$("output").css("line-height", "0.25em");
 		$(".swal2-range").css("height", '');
+	});
+
+	$("#btn-option").on("click", async function (e) {
+		const { value: option } = await Swal.fire({
+			title: 'Select color',
+			input: 'radio',
+			inputValidator: (value) => {
+				if (!value) {
+					return 'You need to choose something!'
+				}
+			},
+			didOpen: (e) => {
+				const checkType = db.getItem("read-type");
+				$(e).find(".swal2-confirm.swal2-styled").removeClass("swal2-styled").toggleClass("button");
+				$(e).find(".swal2-radio").html(`
+					<input type="radio" id="demo-priority-low" name="demo-priority" value="page" ${checkType === 'page' ? 'checked' : ''}>
+					<label for="demo-priority-low">Page</label>
+
+					<input type="radio" id="demo-priority-normal" name="demo-priority" value="webtoon" ${checkType === 'webtoon' ? 'checked' : ''}>
+					<label for="demo-priority-normal">Webtoon</label>
+				`)
+			}
+		});
+
+		switch (option) {
+			case 'page':
+				db.setItem("read-type", "page");
+
+				window.location.reload();
+				break;
+
+			case 'webtoon':
+				db.setItem("read-type", "webtoon");
+
+				window.location.hash = "";
+				window.location.reload();
+				break;
+		}
 	});
 
 	$(".dropdown-item").on("click", async function (e) {
@@ -363,5 +401,52 @@ $(document).ready(function () {
 			next.children(':first-child').clone().appendTo($(this));
 		}
 	});
+
+	const chapter = $(".chapter");
+	const type = db.getItem("read-type") || "webtoon";
+	switch (type) {
+		case 'webtoon':
+			chapter.find("img").each(function (e) {
+				$(this).css("display", "block");
+			});
+			break;
+
+		case 'page':
+			const hash = window.location.hash;
+			if (hash)
+				chapter.find(hash).css("display", "block");
+			else
+				chapter.find("img:first-child").css("display", "block");
+
+			if ("onhashchange" in window) {
+				window.onhashchange = function () {
+					const hash = window.location.hash.substring(1);
+
+					chapter.find("img[style='display: block;']").css("display", "none");
+					chapter.find(`#${hash}`).css("display", "block");
+				}
+			}
+
+			$(document).on("keyup", function (e) {
+				if (e.keyCode === 37) {
+					const findActive = chapter.find("img[style='display: block;']");
+					const prev = findActive.prev();
+					if (prev.length) {
+						findActive.css("display", "none");
+						prev.css("display", "block");
+						window.location.hash = prev.attr("id");
+					}
+				} else if (e.keyCode === 39) {
+					const findActive = chapter.find("img[style='display: block;']");
+					const next = findActive.next();
+					if (next.length) {
+						findActive.css("display", "none");
+						next.css("display", "block");
+						window.location.hash = next.attr("id");
+					}
+				}
+			});
+			break;
+	}
 
 }); 

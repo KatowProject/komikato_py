@@ -1,20 +1,18 @@
 {% extends 'layout2/base.html' %}
 
 {% block title %}
-    <title>Komik {{ title }} • Komikindo</title>
+    <title>Comic {{ title }} • Mangabat</title>
 {% endblock %}
 
 {% block property %}
     <meta property="og:title" content="{{ title }}" />
-    <meta property="og:description" content="Baca komik {{ title }}" />
+    <meta property="og:description" content=" {{ synopsis }}" />
     <meta property="og:url" content="{{ url }}" />
     <meta property="og:site_name" content="Komikato" />
     <meta property="og:image" content="{{ thumb }}" />
     <meta property="og:image:url" content="{{ thumb }}" />
     <meta property="og:image:secure_url" content="{{ thumb }}" />
     <meta property="og:image:alt" content="kato_image" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
     <meta property="og:image:type" content="image/png" />
 {% endblock %}
 
@@ -26,13 +24,13 @@
 
         <div class="btn-group btn-block">
             {% if chapter.prev != None %}
-                <a href='/komikindo/chapter/{{chapter.prev}}' class='button fit'>Previous</a>
+                <a href='/mangabat/chapter/{{chapter.prev}}' class='button fit'>Previous</a>
             {% else %}
                 <a href='#' class='button fit'>Previous</a>
             {% endif %}
             &nbsp;
             {% if chapter.next != None %}
-                <a href='/komikindo/chapter/{{chapter.next}}' class='button fit'>Next</a>
+                <a href='/mangabat/chapter/{{chapter.next}}' class='button fit'>Next</a>
             {% else %}
                 <a href='#' class='button fit disabled'>Next</a>
             {% endif %}
@@ -41,21 +39,21 @@
         <hr>
 
         <span class="image main chapter">
-            {% for image in images %}
-                <img src="{{ image }}" alt="" id="page-{{ forloop.counter }}" style="display: none;" />
+            {% for chapter in chapters %}
+                <img src="{{ chapter }}" alt="" id="page-{{ forloop.counter }}" style="display: none;" />
             {% endfor %}
         </span>
             <hr>
 
         <div class="btn-group btn-block">
             {% if chapter.prev != None %}
-                <a href='/komikindo/chapter/{{chapter.prev}}' class='button fit'>Previous</a>
+                <a href='/mangabat/chapter/{{chapter.prev}}' class='button fit'>Previous</a>
             {% else %}
                 <a href='#' class='button fit'>Previous</a>
             {% endif %}
             &nbsp;
             {% if chapter.next != None %}
-                <a href='/komikindo/chapter/{{chapter.next}}' class='button fit'>Next</a>
+                <a href='/mangabat/chapter/{{chapter.next}}' class='button fit'>Next</a>
             {% else %}
                 <a href='#' class='button fit disabled'>Next</a>
             {% endif %}
@@ -65,7 +63,7 @@
 
 {% block settings %}
     <button type="button" class="button primary" id="btn-brightness">
-        <i class="fa-solid fa-brightness"></i>
+        <i class="fas fa-circle-half-stroke"></i>
     </button>
 
     <button type="button" class="button primary" id="btn-option">
