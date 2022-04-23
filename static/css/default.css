@@ -58,11 +58,11 @@ table tbody tr:nth-child(2n + 1) {
     }
 
     #btn-option {
-        bottom: 100px;
+        bottom: 110px;
     }
 
     #btn-brightness {
-        bottom: 60px;
+        bottom: 65px;
     }
 }
 

@@ -295,6 +295,9 @@ $(document).ready(function () {
 				case 'otakudesu':
 					window.location.href = `/otakudesu/search/${value}`;
 					break;
+
+				case 'mangabat':
+					window.location.href = `/mangabat/search/${value}`;
 			}
 		}
 	});
