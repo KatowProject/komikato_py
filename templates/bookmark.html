@@ -1,0 +1,62 @@
+{% extends 'layout2/base.html' %}
+
+{% block title %}
+	<title>Komikato • Bookmark</title> 
+{% endblock %}
+
+{% block property %}
+	<meta property="og:title" content="Bookmark · Komikato" />
+	<meta property="og:description" content="Bookmarks" />
+	<meta property="og:site_name" content="Komikato" />
+	<meta property="og:image" content="/assets/image/kato.png" />
+	<meta property="og:image:secure_url" content="/assets/image/kato.png" />
+	<meta property="og:image:alt" content="Komikindo" />
+	<meta property="og:image:type" content="image/png" />
+{% endblock %}
+
+{% block script %}
+    <script>
+        const getData = db.getItem('bookmarks') || '[]';
+        if (getData === '[]') {
+            $("#main > .inner").append(`
+            <section>
+                <header class="major">
+                    <h2>Bookmarks</h2>
+                </header>
+                <p>Tidak ada komik yang di bookmark</p>
+                <span class="image main"><img src="/assets/image/menhera-thonk.webp" alt="" /></span>
+            </section>
+            `)
+        } else {
+            const data = JSON.parse(getData);
+            const mangas = data.map(a => `
+            <div class="col-4">
+                <span class="image fit">
+                    <div class="card mb-3" style="width: auto;">
+                        <img src="${a.thumb}" class="card-img-top" alt="">
+                        <div class="card-body text-center">
+                            <h5 class="card-title text-center">${a.title || a.name}</h5>
+                            <a class="button" href="${a.endpoint}">More</a>
+                        </div>
+                    </div>
+                </span>
+            </div>
+            `);
+
+
+            $("#main > .inner").append(`
+            <section>
+                <header class="major">
+                    <h2>Bookmarks</h2>
+                </header>
+                <div class="box alt">
+                    <div class="row gtr-50 gtr-uniform">
+                        ${mangas.join('\n')}
+                    </div>
+                </div>
+            </section>
+            `);
+        }
+    </script>
+{% endblock %}
+

@@ -9,3 +9,6 @@ def handle_not_found(request, exception):
 # 400 handle
 def handle_bad_request(request, exception):
     return render(request, '400.html', context={})
+
+def bookmark(request):
+    return render(request, 'bookmark.html', context={})

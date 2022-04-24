@@ -39,7 +39,13 @@ def get(url, options={}):
         #     #     response = req.get(url + "?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=id", params=options)
             
         return response
-        
+    
+def post(url, data, options={}):
+    response = req.post(url, data=data, headers=options.get("headers", {}))
+    
+    return response
+    
+    
 def get_media_src(url):
     response = get(url)
     data = response.text
@@ -70,3 +76,8 @@ def to_base64(url):
     url = base64.b64encode(url.encode('utf-8'))
     
     return url.decode('utf-8')
+
+def decode_base64(url):
+    url = base64.b64decode(url).decode('utf-8')
+    
+    return url

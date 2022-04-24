@@ -40,7 +40,7 @@
 
         <span class="image main chapter">
             {% for chapter in chapters %}
-                <img src="{{ chapter }}" alt="" id="page-{{ forloop.counter }}" style="display: none;" />
+                <img src="{{ chapter }}" alt="" id="page-{{ forloop.counter }}" style="display: none;" loading="lazy"/>
             {% endfor %}
         </span>
             <hr>

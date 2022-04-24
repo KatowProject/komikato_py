@@ -18,6 +18,7 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('bookmarks/', views.bookmark, name='bookmarks'),
     path('komikindo/', include('routers.web.komikindo.urls')),
     path('otakudesu/', include('routers.web.otakudesu.urls')),
     path('mangabat/', include('routers.web.mangabat.urls')),

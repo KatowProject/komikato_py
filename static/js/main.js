@@ -364,7 +364,7 @@ $(document).ready(function () {
 		const endpoint = window.location.pathname.split("/")[3];
 		const query = $(this).data("query");
 
-		const response = await $.getJSON(`/api/otakudesu/eps/${endpoint}/${query}`);
+		const response = await $.getJSON(`/api/otakudesu/eps/${endpoint}/?id=${query}`);
 
 		$(".chapter").html("");
 		if (response.stream_link.includes("archive.org")) {
@@ -406,10 +406,11 @@ $(document).ready(function () {
 	});
 
 	const chapter = $(".chapter");
+	const imgs = chapter.find("img");
 	const type = db.getItem("read-type") || "webtoon";
 	switch (type) {
 		case 'webtoon':
-			chapter.find("img").each(function (e) {
+			$(imgs).each(function (e) {
 				$(this).css("display", "block");
 			});
 			break;
@@ -427,6 +428,8 @@ $(document).ready(function () {
 
 					chapter.find("img[style='display: block;']").css("display", "none");
 					chapter.find(`#${hash}`).css("display", "block");
+
+					$("#page-pagination").text(`${hash.replace("page-", "")} / ${imgs.length}`);
 				}
 			}
 
@@ -466,4 +469,55 @@ $(document).ready(function () {
 			break;
 	}
 
+	$("#bookmark").on("click", async function () {
+		const endpoint = window.location.pathname;
+		const type = $(this).attr("type");
+
+		const bookmarks = db.getItem("bookmarks") || '[]';
+		switch (type) {
+			case "add":
+				const getData = await $.getJSON(`/api${endpoint}`);
+				getData.endpoint = endpoint;
+
+				const isAlready = JSON.parse(bookmarks).find(a => a.endpoint === endpoint);
+				if (isAlready) return Swal.fire({
+					icon: "error",
+					title: "Already Bookmarked",
+					text: "You already bookmarked this page",
+					didOpen: (e) => {
+						$(e).find(".swal2-confirm.swal2-styled").removeClass("swal2-styled").toggleClass("button");
+					}
+				});
+
+				db.setItem("bookmarks", JSON.stringify([...JSON.parse(bookmarks), getData]));
+
+				Swal.fire({
+					title: "Bookmark",
+					text: "Successfully bookmarked",
+					icon: "success",
+					didOpen: (e) => {
+						$(e).find(".swal2-confirm.swal2-styled").removeClass("swal2-styled").toggleClass("button");
+					}
+				});
+
+				$("#bookmark").text(" - Bookmark").attr("type", "remove");
+				break;
+
+			case "remove":
+				const newBookmarks = JSON.parse(bookmarks).filter(a => a.endpoint !== endpoint);
+				db.setItem("bookmarks", JSON.stringify(newBookmarks));
+
+				Swal.fire({
+					title: "Bookmark",
+					text: "Successfully removed",
+					icon: "success",
+					didOpen: (e) => {
+						$(e).find(".swal2-confirm.swal2-styled").removeClass("swal2-styled").toggleClass("button");
+					}
+				});
+				$("#bookmark").text(" + Bookmark").attr("type", "add");
+
+				break;
+		}
+	})
 }); 

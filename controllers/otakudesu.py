@@ -1,4 +1,6 @@
+import json
 import tools
+import urllib
 from bs4 import BeautifulSoup
 baseURL = "https://otakudesu.site/"
 prox = "https://otakudesu-site.translate.goog/"
@@ -81,6 +83,7 @@ def detail(request, endpoint):
     soup = BeautifulSoup(data, "html.parser")
     
     obj = {}
+    obj["id"] = soup.find(rel="shortlink").get("href").split("?p=")[1]
     obj["main_title"] = soup.find(class_="jdlrx").find("h1").text.strip()
     obj["thumb"] = soup.find(class_="wp-post-image").get("src")
     obj["url"] = request.build_absolute_uri()
@@ -135,10 +138,12 @@ def detail(request, endpoint):
             })
         elif "List" in type:
             temp = []
-            eps = episode.find_all("li")
+            list_response = tools.get(f"{baseURL}wp-admin/admin-ajax.php?action=epslist&id={obj['id']}")
+            list_soup = BeautifulSoup(list_response.text, "html.parser")
+            eps = list_soup.find_all("li")
             for ep in eps:
                 temp.append({
-                    'title': ep.find("a").text,
+                    'title': ep.find("a").text.strip(),
                     'url': ep.find("a").get("href"),
                     'endpoint': ep.find("a").get("href").replace(baseURL, "").replace(prox, "").replace(proxq, "")
                 })
@@ -151,17 +156,9 @@ def detail(request, endpoint):
     return obj
 
 def eps(request, endpoint):
-    query = request.GET.get("mirror-360p"), request.GET.get("mirror"), request.GET.get("mirror-720p")
-    if query[0]:
-        mirror = "?mirror-360p=" + query[0]
-    elif query[1]:
-        mirror = "?mirror=" + query[1]
-    elif query[2]:
-        mirror = "?mirror-720p=" + query[2]
-    else:
-        mirror = ""
+    query = request.GET.get("id", None)
         
-    response = tools.get(f"{baseURL}{endpoint}/{mirror}")
+    response = tools.get(f"{baseURL}{endpoint}")
     data = response.text.replace(prox, baseURL).replace(proxq, "")
     soup = BeautifulSoup(data, "html.parser")
     
@@ -188,7 +185,32 @@ def eps(request, endpoint):
         obj["stream_link"] = tools.get_media_src(stream_link)
     else:
         obj["stream_link"] = stream_link
+    
+    if query:
+        get_script = soup.find_all("script").pop()
+        action = get_script.text.split("action:")[1].split('"')[1]
+        nonce = get_script.text.split("nonce:")[1].split('"')[1]
         
+        query_id = tools.decode_base64(query)
+        dict_id = json.loads(query_id)
+        dict_id["action"] = action
+        dict_id["nonce"] = nonce
+        
+        _id = urllib.parse.urlencode(dict_id, doseq=False)
+        print(_id)
+        query_response = tools.post(f"{baseURL}wp-admin/admin-ajax.php", data=_id, options={
+            'headers': {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36'
+            }
+        })
+        
+        query_data = json.loads(query_response.text)
+        decode_data = tools.decode_base64(query_data["data"])
+        url = decode_data.split('src="')[1].split('"')[0]
+        
+        obj["stream_link"] = url
+                
     obj["mirror_stream_link"] = []
     mrr = soup.find(class_="mirrorstream").find_all("ul")
     for mr in mrr:
@@ -198,10 +220,7 @@ def eps(request, endpoint):
         if "480" in class_:
             lis = mr.find_all("li")
             for li in lis:
-                url = li.find("a").get("href")
-                if "otakudesu" in url:
-                    url = url.split("?")[1]
-                    url = f"?{url}"
+                url = li.find("a").get("data-content")
                 temp.append({
                     'title': li.find("a").text.strip(),
                     'url': url,
@@ -214,10 +233,7 @@ def eps(request, endpoint):
         elif "720" in class_:
             lis = mr.find_all("li")
             for li in lis:
-                url = li.find("a").get("href")
-                if "otakudesu" in url:
-                    url = url.split("?")[1]   
-                    url = f"?{url}"
+                url = li.find("a").get("data-content")
                 temp.append({
                     'title': li.find("a").text.strip(),
                     'url': url,

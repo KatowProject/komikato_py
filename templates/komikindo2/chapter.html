@@ -28,7 +28,7 @@
             {% if chapter.prev != None %}
                 <a href='/komikindo/chapter/{{chapter.prev}}' class='button fit'>Previous</a>
             {% else %}
-                <a href='#' class='button fit'>Previous</a>
+                <a href='#' class='button fit disabled'>Previous</a>
             {% endif %}
             &nbsp;
             {% if chapter.next != None %}
@@ -42,16 +42,18 @@
 
         <span class="image main chapter">
             {% for image in images %}
-                <img src="{{ image }}" alt="" id="page-{{ forloop.counter }}" style="display: none;" />
+                <img src="{{ image }}" alt="" id="page-{{ forloop.counter }}" style="display: none;" loading="lazy">
             {% endfor %}
         </span>
-            <hr>
+        <hr>
+        <h4 class="text-center" id="page-pagination">- / {{images | length }}</h4>
+        <hr>
 
         <div class="btn-group btn-block">
             {% if chapter.prev != None %}
                 <a href='/komikindo/chapter/{{chapter.prev}}' class='button fit'>Previous</a>
             {% else %}
-                <a href='#' class='button fit'>Previous</a>
+                <a href='#' class='button fit disabled'>Previous</a>
             {% endif %}
             &nbsp;
             {% if chapter.next != None %}
