@@ -43,8 +43,6 @@ def get(url, options={}):
 def post(url, data, options={}):
     response = req.post(url, data=data, headers=options.get("headers", {}))
     status = response.status_code
-    data = data + f"&url={url}"
-    print(data)
     if status == 200:
         return response
     else:
