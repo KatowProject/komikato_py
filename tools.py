@@ -50,7 +50,7 @@ def post(url, data, options={}):
         # add to data
         data = data + f"&url={url_base64.decode('utf-8')}"
         print(data)
-        response = req.post("https://bypass.kato-rest.us/", data=data)
+        response = req.post("https://bypass.kato-rest.us/", data=data, headers=options.get("headers", {}))
         
         return response
     
