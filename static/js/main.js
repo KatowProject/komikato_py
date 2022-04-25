@@ -473,6 +473,18 @@ $(document).ready(function () {
 		const endpoint = window.location.pathname;
 		const type = $(this).attr("type");
 
+		// loading
+		Swal.fire({
+			title: 'Loading...',
+			allowOutsideClick: false,
+			allowEscapeKey: false,
+			allowEnterKey: false,
+			showConfirmButton: false,
+			didOpen: () => {
+				Swal.showLoading();
+			},
+		});
+
 		const bookmarks = db.getItem("bookmarks") || '[]';
 		switch (type) {
 			case "add":
@@ -504,6 +516,7 @@ $(document).ready(function () {
 				break;
 
 			case "remove":
+				var i;
 				const newBookmarks = JSON.parse(bookmarks).filter(a => a.endpoint !== endpoint);
 				db.setItem("bookmarks", JSON.stringify(newBookmarks));
 
@@ -511,8 +524,17 @@ $(document).ready(function () {
 					title: "Bookmark",
 					text: "Successfully removed",
 					icon: "success",
+					timer: 2000,
+					timerProgressBar: true,
 					didOpen: (e) => {
-						$(e).find(".swal2-confirm.swal2-styled").removeClass("swal2-styled").toggleClass("button");
+						Swal.showLoading();
+						const b = Swal.getHtmlContainer().querySelector("b");
+						timerInterval = setInterval(() => {
+							b.textContent = Swal.getTimerLeft();
+						}, 100);
+					},
+					willClose: () => {
+						clearInterval(i);
 					}
 				});
 				$("#bookmark").text(" + Bookmark").attr("type", "add");

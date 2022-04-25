@@ -197,7 +197,6 @@ def eps(request, endpoint):
         dict_id["nonce"] = nonce
         
         _id = urllib.parse.urlencode(dict_id, doseq=False)
-        print(_id)
         query_response = tools.post(f"{baseURL}wp-admin/admin-ajax.php", data=_id, options={
             'headers': {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
