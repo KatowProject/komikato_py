@@ -52,6 +52,8 @@ def post(url, data, options={}):
         # add to data
         data = data + f"&url={url_base64.decode('utf-8')}"
         response = req.post("https://bypass.kato-rest.us/", data=data)
+        
+        return response
     
     
 def get_media_src(url):
