@@ -51,6 +51,7 @@ def post(url, data, options={}):
         url_base64 = base64.b64encode(url.encode('utf-8'))
         # add to data
         data = data + f"&url={url_base64.decode('utf-8')}"
+        print(data)
         response = req.post("https://bypass.kato-rest.us/", data=data)
         
         return response
