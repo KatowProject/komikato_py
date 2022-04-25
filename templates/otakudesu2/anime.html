@@ -29,6 +29,11 @@
             <div class="row">
                 <div class="col-md-4">
                     <img src="{{ thumb }}" class="img-fluid rounded" alt="...">
+
+                    <div class="mt-3 text-center">
+                        <button class="button" id="bookmark" type="add">+ Bookmark</button>
+                    </div>
+                    <br>
                 </div>
 
                 <div class="col-md-8">
@@ -82,4 +87,13 @@
             <input type="text" name="query" id="query" placeholder="Search" required="">
         </form>
     </section>
+{% endblock %}
+
+{% block script %}
+    <script>
+        const endpoint = window.location.pathname;
+        const bookmark = db.getItem('bookmarks') || '[]';
+        const isAlready = JSON.parse(bookmark).find(a => a.endpoint === endpoint);
+        if (isAlready) $('#bookmark').text('- Bookmark').attr('type', 'remove');
+    </script>
 {% endblock %}
