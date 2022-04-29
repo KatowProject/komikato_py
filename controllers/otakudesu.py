@@ -2,7 +2,7 @@ import json
 import tools
 import urllib
 from bs4 import BeautifulSoup
-baseURL = "https://otakudesu.site/"
+baseURL = "https://otakudesu.tube/"
 prox = "https://otakudesu-site.translate.goog/"
 proxq = "?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=id"
 
@@ -138,9 +138,14 @@ def detail(request, endpoint):
             })
         elif "List" in type:
             temp = []
+            eps = None
             list_response = tools.get(f"{baseURL}wp-admin/admin-ajax.php?action=epslist&id={obj['id']}")
-            list_soup = BeautifulSoup(list_response.text, "html.parser")
-            eps = list_soup.find_all("li")
+            if list_response.text != '0':
+                list_soup = BeautifulSoup(list_response.text, "html.parser")
+                eps = list_soup.find_all("li")
+            else:
+                eps = episode.find("ul").find_all("li")    
+            
             for ep in eps:
                 temp.append({
                     'title': ep.find("a").text.strip(),
