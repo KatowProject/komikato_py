@@ -9,20 +9,14 @@ def index(request):
 
 def home(request):
     response = tools.get(f"{baseURL}")
-    soup = BeautifulSoup(response.text, "html.parser")
+    soup = BeautifulSoup(response.text, "html")
     
     obj = {}
-    whites = soup.find_all("section", class_="whites")
-    for white in whites:
-        if white.get("id", "n") == "informasi":
-            continue
-        
-        key = white.find(class_="widget-title").text.strip().replace(" ", "_").lower()
-        print(key)
-        if "manga_terbaru" in key:
-            obj["newest"] = []
-            mangas = white  .find_all(class_="animepost")
-            print(len(mangas))
+    obj["title"] = soup.title.text
+    
+    newest = soup.find_all_next(class_="whites")
+    return soup.prettify()
+    
             
             
     return obj

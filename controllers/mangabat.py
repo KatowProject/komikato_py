@@ -1,5 +1,3 @@
-import os
-from wsgiref import headers
 import tools
 from bs4 import BeautifulSoup
 baseURL = "https://m.mangabat.com/"
@@ -11,7 +9,7 @@ def index(request):
     return { 'success': True, 'statusCode': response.status_code }
 
 def home(request):
-    response = tools.get(f"{baseURL}m")
+    response = tools.get(f"{baseURL}")
     data = response.text
     soup = BeautifulSoup(data, "html.parser")
     main = soup.find(class_="body-site")

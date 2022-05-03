@@ -6,4 +6,5 @@ def index(request):
     return HttpResponse(json.dumps(bacakomik.index(request)), content_type="application/json")
 
 def home(request):
+    return HttpResponse(bacakomik.home(request))
     return HttpResponse(json.dumps(bacakomik.home(request)), content_type="application/json")

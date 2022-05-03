@@ -14,6 +14,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
@@ -27,7 +29,7 @@ urlpatterns = [
     path('api/otakudesu/', include('routers.api.otakudesu.urls')),
     path('api/mangabat/', include('routers.api.mangabat.urls')),
     path('api/bacakomik/', include('routers.api.bacakomik.urls')),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)
 
 handler404 = views.handle_not_found
 handler400 = views.handle_bad_request

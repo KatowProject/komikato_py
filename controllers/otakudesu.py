@@ -208,7 +208,6 @@ def eps(request, endpoint):
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36'
             }
         })
-        
         query_data = json.loads(query_response.text)
         decode_data = tools.decode_base64(query_data["data"])
         url = decode_data.split('src="')[1].split('"')[0]
