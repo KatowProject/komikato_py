@@ -119,15 +119,13 @@ def comic(request, endpoint):
     main.find(class_="panel-story-info-description").find("h3").decompose()
     obj["synopsis"] = main.find(class_="panel-story-info-description").text.strip()
     
-    response = tools.get(f"https://tachi.iqbalrifai.eu.org/api/v1/source/4215511432986138970/search?searchTerm={obj['name']}")
-    obj["tachi_id"] = response.json()["mangaList"][0]["id"]
     obj["chapters"] = []
     chapters = main.find(class_="row-content-chapter").find_all("li")
     for chapter in chapters:
         name = chapter.find("a").text
         date = chapter.find(class_="chapter-time text-nowrap").text
         url = chapter.find("a").get("href")
-        endpoint = url.replace(baseURL, "") + "/?id=" + str(obj["tachi_id"])
+        endpoint = url.replace(baseURL, "").replace(altURL, "")
         
         obj["chapters"].append({ 'name': name, 'date': date, 'url': url, 'endpoint': endpoint })
         
