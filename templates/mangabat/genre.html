@@ -1,0 +1,62 @@
+{% extends 'layout2/base.html' %}
+
+{% block title %}
+	<title>Mangabat • {{ title }}</title>
+{% endblock %}
+
+{% block property %}
+	<meta property="og:title" content="Mangabat • Search" />
+	<meta property="og:description" content="Hasil Pencarian Komik" />
+	<meta property="og:url" content="{{ url }}" />
+	<meta property="og:site_name" content="Komikato" />
+	<meta property="og:image" content="/assets/image/mangabat.png" />
+	<meta property="og:image:secure_url" content="/assets/image/mangabat.png" />
+	<meta property="og:image:alt" content="search_image" />
+	<meta property="og:image:type" content="image/png" />
+{% endblock %}
+
+{% block content %}
+	<section>
+		<header class="major">
+			<h2>{{ title }}</h2>
+		</header>
+
+		<div class="posts">
+			{% for manga in mangas %}
+				<article>
+					<a href="#" class="image center-cropped"><img src="{{manga.thumb}}" alt="" /></a>
+					<h3>{{ manga.name }}</h3>  
+					<p>Baca {{ manga.name }}</p>
+
+					<ul class="actions">
+						<li><a class="button" href="/mangabat/comic/{{ manga.endpoint }}">More</a></li>
+					</ul>
+				</article>
+			{% endfor %}
+		</div>
+	</section>
+					
+	<section>
+		<div class="row">
+			<div class="col-sm-12">
+				<ul class="pagination justify-content-center">
+					{% for page in pagination %}
+						{% if page.url == None and page.endpoint == None %}
+							<li><a class="page active">{{ page.name }}</a></li>
+						{% else %}
+							<li><a class="page" href="/mangabat/genres/{{ page.endpoint}}">{{ page.name }}</a></li>
+						{% endif %}
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+{% block search %}
+    <section id="search" class="alt" data-source="mangabat">
+        <form name="search" action>
+            <input type="text" name="query" id="query" placeholder="Search" required>
+        </form>
+    </section>
+{% endblock %}

@@ -6,4 +6,7 @@ urlpatterns = [
     path('comic/<str:endpoint>/', views.comic, name='comic'),
     path('chapter/<str:endpoint>/', views.chapter, name='chapter'),
     path('search/<str:query>/', views.search, name='search'),
+    path('genres/', views.genres, name='genres'),
+    path('genres/<str:type>/', views.genres, name='genres'),
+    path('genres/<str:type>/page/<int:pagination>', views.genres, name='genres'),
 ]

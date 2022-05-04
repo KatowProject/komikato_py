@@ -16,3 +16,6 @@ def chapter(request, endpoint):
 
 def search(request, query):
     return HttpResponse(json.dumps(mangabat.search(request, query)), content_type="application/json")
+
+def genres(request, type=None, pagination=1):
+    return HttpResponse(json.dumps(mangabat.genres(request, type, pagination)), content_type="application/json")

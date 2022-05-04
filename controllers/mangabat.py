@@ -217,6 +217,70 @@ def search(request, query):
         
     return obj
     
+def genres(request, type, page):
+    obj = {}
+    if type is None:
+        type = ""
+    
+    response = tools.get(f"{baseURL}{type}/{page}")    
+    soup = BeautifulSoup(response.text, "html.parser")
+    
+    obj["title"] = soup.title.text.split(" - ")[1]
+    is404 = soup.find(style="font: 700 22px sans-serif;")
+    if is404 is not None and "404" in is404.text:
+        response = tools.get(f"https://read.mangabat.com/{type}")
+        soup = BeautifulSoup(response.text, "html.parser")
+        is404 = soup.find(style="font: 700 22px sans-serif;")
+        
+        if is404 is not None and "404" in is404.text:
+            return { 'success': False, 'statusCode': 404 }
+        
+    obj["genres"] = []
+    genres = soup.find(class_="panel-category").find_all("a")
+    for genre in genres:
+        name = genre.text
+        if name == "":
+            name = genre.get("title")
+        url = genre.get("href")
+        if "?" in url:
+            continue
+        endpoint = url.replace(baseURL, "").replace(altURL, "")
+        
+        obj["genres"].append({ 'name': name, 'url': url, 'endpoint': endpoint })
+        
+    
+    if type != "":
+        obj["mangas"] = []
+        mangas = soup.find(class_="panel-list-story").find_all(class_="list-story-item")
+        for manga in mangas:
+            name = manga.find("a").get("title")
+            thumb = manga.find("img").get("src")
+            url = manga.find("a").get("href")
+            endpoint = url.replace(baseURL, "").replace(altURL, "")
+            
+            obj["mangas"].append({ 'name': name, 'thumb': thumb, 'url': url, 'endpoint': endpoint })
+            
+        obj["pagination"] = []
+        pagination = soup.find(class_="panel-page-number").find_all("a")
+        for page in pagination:
+            name = page.text
+            if "FIRST" in name:
+                name = "<< First Page"
+            elif "LAST" in name:
+                name = "Last Page >>"
+            url = page.get("href", None)
+            
+            endpoint = url
+            if url is None:
+                endpoint = None
+            else:
+                endpoint = url.replace(baseURL, "").replace(altURL, "")
+                end_uri = endpoint.split("/")
+                endpoint = f"{end_uri[0]}/page/{end_uri[-1]}"
+                
+            obj["pagination"].append({ 'name': name, 'url': url, 'endpoint': endpoint })
+            
+    return obj    
     
     
     
