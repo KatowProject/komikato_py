@@ -1,4 +1,5 @@
 import controllers.komikindo as komikindo
+from django.urls import path
 from django.shortcuts import render
 
 # Create your views here.
@@ -32,3 +33,20 @@ def komik_detail(request, endpoint):
 def daftar_komik(request, page=1):
     komik_list = komikindo.daftar_komik(request, page)
     return render(request, 'komikindo2/daftar-komik.html', context=komik_list)
+
+urlpatterns = [
+    path('', index, name='index'),
+    path('chapter/<str:endpoint>/', chapter, name='chapter'),
+    path('search/<str:query>/', search, name='search'),
+    path('komik/<str:endpoint>/', komik_detail, name='komik_detail'),
+    path('daftar-komik/', daftar_komik, name='daftar_komik'),
+    path('daftar-komik/page/<int:page>/', daftar_komik, name='daftar_komik'),
+    path('manga/', komik, name='manga'),
+    path('manga/page/<int:page>/', komik, name='manga'),
+    path('manhwa/', komik, name='manhwa'),
+    path('manhwa/page/<int:page>/', komik, name='manhwa'),
+    path('manhua/', komik, name='manhua'),
+    path('manhua/page/<int:page>/', komik, name='manhua'),
+    path('smut/', komik, name='smut'),
+    path('smut/page/<int:page>/', komik, name='smut'),
+]

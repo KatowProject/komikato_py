@@ -1,5 +1,6 @@
 import json
 import controllers.mangabat as mangabat
+from django.urls import path    
 from django.http import HttpResponse
 
 def index(request):
@@ -19,3 +20,14 @@ def search(request, query):
 
 def genres(request, type=None, pagination=1):
     return HttpResponse(json.dumps(mangabat.genres(request, type, pagination)), content_type="application/json")
+
+urlpatterns = [
+    path('', index, name='index'),
+    path('home/', home, name='home'),
+    path('comic/<str:endpoint>/', comic, name='comic'),
+    path('chapter/<str:endpoint>/', chapter, name='api_chapter'),
+    path('search/<str:query>/', search, name='search'),
+    path('genres/', genres, name='genres'),
+    path('genres/<str:type>/', genres, name='genres'),
+    path('genres/<str:type>/page/<int:pagination>', genres, name='genres'),
+]

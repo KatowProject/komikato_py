@@ -21,14 +21,16 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('bookmarks/', views.bookmark, name='bookmarks'),
-    path('komikindo/', include('routers.web.komikindo.urls')),
-    path('otakudesu/', include('routers.web.otakudesu.urls')),
-    path('mangabat/', include('routers.web.mangabat.urls')),
+    path('komikindo/', include('routers.web.komikindo')),
+    path('otakudesu/', include('routers.web.otakudesu')),
+    path('mangabat/', include('routers.web.mangabat')),
+    path('komiku/', include('routers.web.komiku')),
     #path('bacakomik/', include('routers.web.bacakomik.urls')),
-    path('api/komikindo/', include('routers.api.komikindo.urls')),
-    path('api/otakudesu/', include('routers.api.otakudesu.urls')),
-    path('api/mangabat/', include('routers.api.mangabat.urls')),
-    path('api/bacakomik/', include('routers.api.bacakomik.urls')),
+    path('api/komikindo/', include('routers.api.komikindo')),
+    path('api/otakudesu/', include('routers.api.otakudesu')),
+    path('api/mangabat/', include('routers.api.mangabat')),
+    path('api/bacakomik/', include('routers.api.bacakomik')),
+    path('api/komiku/', include('routers.api.komiku')),
 ] + static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)
 
 handler404 = views.handle_not_found

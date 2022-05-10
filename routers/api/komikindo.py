@@ -1,5 +1,6 @@
 import json
 import controllers.komikindo as komikindo
+from django.urls import path    
 from django.http import HttpResponse
 
 def index(request):
@@ -25,3 +26,14 @@ def chapter(request, endpoint):
 
 def search(request, query):
     return HttpResponse(json.dumps(komikindo.search(request, query)), content_type="application/json")
+
+urlpatterns = [
+    path('', index, name='index'),
+    path('home/', home, name='home'),
+    path('daftar-komik/page/<int:page>/', daftar_komik, name='daftar_komik'),
+    path('komik-terbaru/page/<int:page>/', komik_terbaru, name='komik_terbaru'),
+    path('komikk/<str:types>/page/<int:page>/', komik, name='komik'),
+    path('komik/<str:endpoint>/', komik_detail, name='komik_detail'),
+    path('chapter/<str:endpoint>/', chapter, name='chapter'),
+    path('search/<str:query>/', search, name='search'),
+]

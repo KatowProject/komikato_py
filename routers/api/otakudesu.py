@@ -1,7 +1,7 @@
 import json
 import controllers.otakudesu as otakudesu
+from django.urls import path    
 from django.http import HttpResponse
-
 
 def index(request):
     return HttpResponse(json.dumps(otakudesu.index(request)), content_type="application/json")
@@ -26,3 +26,14 @@ def daftar_anime(request):
 
 def complete_anime(request, page=1):
     return HttpResponse(json.dumps(otakudesu.complete_anime(request, page)), content_type="application/json")
+urlpatterns = [
+    path('', index, name='index'),
+    path('home/', home, name='home'),
+    path('search/<str:query>/', search, name='search'),
+    path('anime/<str:endpoint>/', detail, name='detail'),
+    path('eps/<str:endpoint>/', eps, name='eps'),
+    path('jadwal-rilis/', jadwal_rilis, name='jadwal_rilis'),
+    path('daftar-anime/', daftar_anime, name='daftar_anime'),
+    path('complete-anime/', complete_anime, name='complete_anime'),
+    path('complete-anime/page/<int:page>/', complete_anime, name='complete_anime'),
+]
