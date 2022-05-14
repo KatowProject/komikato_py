@@ -168,7 +168,11 @@ def komik(request, type, page):
     obj["mangas"] = []
     for manga in mangas:
         name = manga.find("a").get("title")
-        thumb = manga.find("img").get("src").split("?")[0]
+        thumb = manga.find(class_="limit").find("img")
+        if thumb != None:
+            thumb = thumb.get("src").split("?")[0]
+        else:
+            thumb = "404"
         link = {
             'url': manga.find("a").get("href"),
             'endpoint': manga.find("a").get("href").replace(baseURL, "").replace(proxq, "")
