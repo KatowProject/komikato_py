@@ -1,4 +1,3 @@
-from turtle import title
 import tools
 from bs4 import BeautifulSoup
 baseURL = "https://komiku.id"
