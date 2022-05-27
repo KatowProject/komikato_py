@@ -1,7 +1,7 @@
 import tools
 from bs4 import BeautifulSoup
 baseURL = "https://m.mangabat.com/"
-altURL = "https://read.mangabat.com/"
+altURL = "https://readmangabat.com/"
 
 def index(request):
     response = tools.get(baseURL)
@@ -76,8 +76,8 @@ def comic(request, endpoint):
     
     is404 = soup.find(style="font: 700 22px sans-serif;")
     if is404 is not None and "404" in is404.text:
-        response = tools.get(f"https://read.mangabat.com/{endpoint}")
-        soup = BeautifulSoup(response.text.replace("https://read.mangabat.com/", baseURL), "html.parser")
+        response = tools.get(f"https://readmangabat.com/{endpoint}")
+        soup = BeautifulSoup(response.text.replace("https://readmangabat.com/", baseURL), "html.parser")
         is404 = soup.find(style="font: 700 22px sans-serif;")
         
         if is404 is not None and "404" in is404.text:
@@ -137,7 +137,7 @@ def chapter(request, endpoint):
     
     is404 = soup.find(style="font: 700 22px sans-serif;")
     if is404 is not None and "404" in is404.text:
-        response = tools.get(f"https://read.mangabat.com/{endpoint}")
+        response = tools.get(f"https://readmangabat.com/{endpoint}")
         soup = BeautifulSoup(response.text, "html.parser")
         is404 = soup.find(style="font: 700 22px sans-serif;")
         
@@ -190,7 +190,7 @@ def search(request, query):
         thumb = manga.find("img").get("src")
         url = manga.find("a").get("href")
         endpoint = url.replace(baseURL, "")
-        if "read.mangabat.com" in url:
+        if "readmangabat.com" in url:
             endpoint = url.replace(altURL, "")
             
         obj["mangas"].append({ 'name': name, 'thumb': thumb, 'url': url, 'endpoint': endpoint })
@@ -208,7 +208,7 @@ def search(request, query):
         endpoint = url
         if url is None:
             endpoint = None
-        elif "read.mangabat.com" in url:
+        elif "readmangabat.com" in url:
             endpoint = url.replace(altURL, "").replace("/manga", "")
         elif "m.mangabat.com" in url:
             endpoint = url.replace(baseURL, "").replace("/manga", "")
@@ -228,7 +228,7 @@ def genres(request, type, page):
     obj["title"] = soup.title.text.split(" - ")[1]
     is404 = soup.find(style="font: 700 22px sans-serif;")
     if is404 is not None and "404" in is404.text:
-        response = tools.get(f"https://read.mangabat.com/{type}")
+        response = tools.get(f"https://readmangabat.com/{type}")
         soup = BeautifulSoup(response.text, "html.parser")
         is404 = soup.find(style="font: 700 22px sans-serif;")
         
