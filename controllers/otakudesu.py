@@ -192,14 +192,25 @@ def eps(request, endpoint):
         obj["stream_link"] = stream_link
     
     if query:
-        get_script = soup.find_all("script").pop()
-        action = get_script.text.split("action:")[1].split('"')[1]
-        nonce = get_script.text.split("nonce:")[1].split('"')[1]
+        get_script = soup.find_all("script").pop().text.split(";")[2]
+        action = get_script.split('action:"')
+        
+        f_action = action[1].split('"')[0]
+        s_action = action[2].split('"')[0]
+        t_action = action[3].split('"')[0]
         
         query_id = tools.decode_base64(query)
         dict_id = json.loads(query_id)
-        dict_id["action"] = action
-        dict_id["nonce"] = nonce
+        
+        query_response = tools.post(f"{baseURL}wp-admin/admin-ajax.php", data=f"action={s_action}", options={
+            'headers': {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36',
+            }
+        })
+                            
+        dict_id["action"] = t_action
+        dict_id["nonce"] = query_response.json()["data"]
         
         _id = urllib.parse.urlencode(dict_id, doseq=False)
         query_response = tools.post(f"{baseURL}wp-admin/admin-ajax.php", data=_id, options={
