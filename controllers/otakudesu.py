@@ -150,7 +150,7 @@ def detail(request, endpoint):
                 temp.append({
                     'title': ep.find("a").text.strip(),
                     'url': ep.find("a").get("href"),
-                    'endpoint': ep.find("a").get("href").replace(baseURL, "").replace(prox, "").replace(proxq, "")
+                    'endpoint': ep.find("a").get("href").replace(baseURL + "episode/", "")
                 })
             
             obj["eps"].append({
@@ -163,7 +163,7 @@ def detail(request, endpoint):
 def eps(request, endpoint):
     query = request.GET.get("id", None)
         
-    response = tools.get(f"{baseURL}{endpoint}")
+    response = tools.get(f"{baseURL}episode/{endpoint}")
     data = response.text.replace(prox, baseURL).replace(proxq, "")
     soup = BeautifulSoup(data, "html.parser")
     
