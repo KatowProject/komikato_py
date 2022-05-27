@@ -42,7 +42,7 @@
 
         <span class="image main chapter">
             {% for image in images %}
-                <img src="{{ image }}" alt="" id="page-{{ forloop.counter }}" style="display: none;">
+                <img src="{{ image }}" alt="image-{{ forloop.counter }}" id="page-{{ forloop.counter }}" style="display: none;" onerror="this.src=`https://bypass.kato-rest.us/?q=${btoa('{{image}}')`">
             {% endfor %}
         </span>
         <hr>
