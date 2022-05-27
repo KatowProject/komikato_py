@@ -24,6 +24,13 @@ function backToTop() {
     document.documentElement.scrollTop = 0;
 }
 
+function bypassImageError(image) {
+    image.onerror = null;
+
+    const imgbase64 = btoa(image.src);
+    image.src = `https://bypass.kato-rest.us/?q=${imgbase64}`;
+}
+
 
 (function ($) {
 
