@@ -78,7 +78,7 @@ def home(request):
     return obj
 
 def daftar_komik(request, page):
-    response = tools.get(baseURL + 'daftar-komik/page/' + str(page))
+    response = tools.get(baseURL + 'daftar-manga/page/' + str(page))
     data = response.text.replace(prox, baseURL).replace(proxq, "")
     soup = BeautifulSoup(data, 'html.parser')
     
