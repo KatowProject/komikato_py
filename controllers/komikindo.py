@@ -2,6 +2,7 @@ import json
 import urllib
 import tools
 from bs4 import BeautifulSoup
+
 baseURL = "https://komikindo.id/"
 prox = "https://komikindo-id.translate.goog/"
 proxq = "?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=id"
@@ -238,7 +239,6 @@ def komik_detail(request, endpoint):
         link = { 'url': url, 'endpoint': endpoint }
         obj["chapters"].append({ 'name': name, 'link': link })
         
-    
     return obj
 
 def search(request, query):
