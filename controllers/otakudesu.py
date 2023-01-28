@@ -2,7 +2,7 @@ import json
 import tools
 import urllib
 from bs4 import BeautifulSoup
-baseURL = "https://otakudesu.bid/"
+baseURL = "https://otakudesu.asia/"
 prox = "https://otakudesu-site.translate.goog/"
 proxq = "?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=id"
 
@@ -30,7 +30,6 @@ def home(request):
             'url': anime.find(class_="thumb").find("a").get("href"),
             'endpoint': anime.find(class_="thumb").find("a").get("href").replace(baseURL, "").replace(prox, "").replace(proxq, "")
         })
-    
     
     obj["complete"] = []
     animes = soup.find(class_="rseries").find_all(class_="venz")[1].find_all("li")
