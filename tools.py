@@ -19,7 +19,7 @@ def get(url, options={}):
         return { 'success': False, 'statusCode': 404, 'message': "Not Found" }
     else:
         url_base64 = base64.b64encode(url.encode('utf-8'))
-        response = req.get("https://bypass.katowproject.app/?q=" + url_base64.decode('utf-8'))
+        response = req.get("https://bypass.katowproject.my.id/?q=" + url_base64.decode('utf-8'))
         # if "komikindo" in url:
         #     # url = url.replace("komikindo.id", "komikindo-id.translate.goog")
         #     # if "?" in url:
