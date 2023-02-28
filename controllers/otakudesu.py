@@ -2,7 +2,7 @@ import json
 import tools
 import urllib
 from bs4 import BeautifulSoup
-baseURL = "https://otakudesu.bid/"
+baseURL = "https://otakudesu.ltd/"
 prox = "https://otakudesu-site.translate.goog/"
 proxq = "?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=id"
 

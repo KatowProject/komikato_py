@@ -2,7 +2,7 @@ import json
 import urllib
 import tools
 from bs4 import BeautifulSoup
-baseURL = "https://komikindo.id/"
+baseURL = "https://komikindo.pro/"
 prox = "https://komikindo-id.translate.goog/"
 proxq = "?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=id"
 
