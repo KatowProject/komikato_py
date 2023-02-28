@@ -31,7 +31,6 @@ def home(request):
             'endpoint': anime.find(class_="thumb").find("a").get("href").replace(baseURL, "").replace(prox, "").replace(proxq, "")
         })
     
-    
     obj["complete"] = []
     animes = soup.find(class_="rseries").find_all(class_="venz")[1].find_all("li")
     for anime in animes:
@@ -186,30 +185,31 @@ def eps(request, endpoint):
     stream_link = soup.find(id="lightsVideo").find("iframe").get("src")
     if stream_link is None:
         obj["stream_link"] = "-"
-    elif "desustream" in stream_link:
-        obj["stream_link"] = tools.get_media_src(stream_link)
     else:
         obj["stream_link"] = stream_link
     
     if query:
-        get_script = soup.find_all("script").pop().text.split(";")[2]
-        action = get_script.split('action:"')
+        get_script = soup.find_all("script")
         
-        f_action = action[1].split('"')[0]
-        s_action = action[2].split('"')[0]
-        t_action = action[3].split('"')[0]
+        script = None
+        for script in get_script:
+            if 'action:"' in script.text:
+                script = script.text
+                break
         
+        action = script.split('action:"')[2].split('"')[0]
+        action1 = script.split('action:"')[1].split('"')[0]
         query_id = tools.decode_base64(query)
         dict_id = json.loads(query_id)
         
-        query_response = tools.post(f"{baseURL}wp-admin/admin-ajax.php", data=f"action={s_action}", options={
+        query_response = tools.post(f"{baseURL}wp-admin/admin-ajax.php", data=f"action={action}", options={
             'headers': {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36',
             }
         })
-                            
-        dict_id["action"] = t_action
+        
+        dict_id["action"] = action1
         dict_id["nonce"] = query_response.json()["data"]
         
         _id = urllib.parse.urlencode(dict_id, doseq=False)
@@ -219,7 +219,9 @@ def eps(request, endpoint):
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36'
             }
         })
+        
         query_data = json.loads(query_response.text)
+        print(query_data)
         decode_data = tools.decode_base64(query_data["data"])
         url = decode_data.split('src="')[1].split('"')[0]
         

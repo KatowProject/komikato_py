@@ -238,7 +238,6 @@ def komik_detail(request, endpoint):
         link = { 'url': url, 'endpoint': endpoint }
         obj["chapters"].append({ 'name': name, 'link': link })
         
-    
     return obj
 
 def search(request, query):
