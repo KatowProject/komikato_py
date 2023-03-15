@@ -2,8 +2,10 @@ import json
 import urllib
 import tools
 from bs4 import BeautifulSoup
+import config as url
+import re
 
-baseURL = "https://komikindo.id/"
+baseURL = url.KOMIKINDO_BASEURL
 prox = "https://komikindo-id.translate.goog/"
 proxq = "?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=id"
 
@@ -208,10 +210,10 @@ def komik_detail(request, endpoint):
     obj["title"] = manga.find(class_="entry-title").text.replace("Komik ","")
     obj["thumb"] = manga.find(class_="thumb").find("img").get("src").split("?")[0]
     obj["alter"] = manga.find(class_="spe").find_all("span")[0].text.split(": ")[1].split(", ")
-    obj["status"] = manga.find(class_="spe").find_all("span")[1].text.split(": ")[1]
-    obj["author"] = manga.find(class_="spe").find_all("span")[2].text.split(": ")[1]
-    obj["illustator"] = manga.find(class_="spe").find_all("span")[3].text.split(": ")[1]
-    obj["grafis"] = manga.find(class_="spe").find_all("span")[4].text.split(": ")[1]
+    obj["status"] = manga.find(class_="spe").find_all("span")[1].text.split(':')[1]
+    obj["author"] = manga.find(class_="spe").find_all("span")[2].text.split(":")[1]
+    obj["illustator"] = manga.find(class_="spe").find_all("span")[3].text.split(":")[1]
+    obj["grafis"] = manga.find(class_="spe").find_all("span")[4].text.split(":")[1]
     obj["score"] = manga.find(itemprop="ratingValue").text
     
     obj["genres"] = []

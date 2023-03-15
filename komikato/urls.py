@@ -13,11 +13,15 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
+from django.views.static import serve
 
+re_pattern = [
+    re_path(r"^assets/(?P<path>.*)$", serve, {"document_root": settings.STATIC_ROOT})
+]
 urlpatterns = [
     path('', views.index, name='index'),
     path('bookmarks/', views.bookmark, name='bookmarks'),
@@ -31,6 +35,7 @@ urlpatterns = [
     path('api/mangabat/', include('routers.api.mangabat')),
     path('api/bacakomik/', include('routers.api.bacakomik')),
     path('api/komiku/', include('routers.api.komiku')),
+    path('', include(re_pattern))
 ] + static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)
 
 handler404 = views.handle_not_found
