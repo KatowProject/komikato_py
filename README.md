@@ -64,7 +64,7 @@ Ex: https://komi.katowproject.app/api/komikindo/genres
 ```
 api/komikindo/genres/manga/<genre:string>/page/<pagination:number>
 ```
-Ex: https://komi.katowproject.app/api/komikindo/genres/manga/action/page/1
+Ex: https://komi.katowproject.app/api/komikindo/genres/action/page/1
 
 ## Otakudesu
 ### Status
