@@ -62,9 +62,9 @@ Ex: https://komi.katowproject.app/api/komikindo/genres
 
 ### Manga Genre
 ```
-api/komikindo/genres/manga/<genre:string>/?page=<pagination:number>
+api/komikindo/genres/manga/<genre:string>/page/<pagination:number>
 ```
-Ex: https://komi.katowproject.app/api/komikindo/genres/manga/action/?page=1
+Ex: https://komi.katowproject.app/api/komikindo/genres/manga/action/page/1
 
 ## Otakudesu
 ### Status
