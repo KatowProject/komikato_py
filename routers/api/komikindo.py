@@ -27,6 +27,12 @@ def chapter(request, endpoint):
 def search(request, query):
     return HttpResponse(json.dumps(komikindo.search(request, query)), content_type="application/json")
 
+def genre_list(request):
+    return HttpResponse(json.dumps(komikindo.genre_list(request)), content_type="application/json")
+
+def genre(request, genre, page):
+    return HttpResponse(json.dumps(komikindo.genre(request, genre, page)), content_type="application/json")
+
 urlpatterns = [
     path('', index, name='index'),
     path('home/', home, name='home'),
@@ -36,4 +42,6 @@ urlpatterns = [
     path('komik/<str:endpoint>/', komik_detail, name='komik_detail'),
     path('chapter/<str:endpoint>/', chapter, name='chapter'),
     path('search/<str:query>/', search, name='search'),
+    path('genres/', genre_list, name='genres'),
+    path('genres/<str:genre>/page/<int:page>', genre, name='komik'),
 ]

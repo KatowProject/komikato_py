@@ -326,3 +326,60 @@ def chapter(request, endpoint):
         obj["chapter"]["next"] = nextq.get("href").replace(baseURL, "").replace(proxq, "")
     
     return obj
+
+def genre_list(request):
+    response = tools.get(baseURL + "daftar-genre/")
+    if (response.status_code == 404):
+        return None
+    data = response.text.replace(prox, baseURL).replace(proxq, "")
+    soup = BeautifulSoup(data, 'html.parser')
+    
+    obj = {}
+    
+    obj["url"] = request.build_absolute_uri()
+    obj["data"] = []
+    genres = soup.find(class_="genrelist").find_all("li")
+    for genre in genres:
+        name = genre.find("a").text
+        link = {
+            'url': genre.find("a").get("href"),
+            'endpoint': genre.find("a").get("href").replace(baseURL, "").replace(proxq, "")
+        }
+        
+        obj["data"].append({ 'name': name, 'link': link })
+    return  obj
+
+def genre(request, endpoint, page = 1):
+    response = tools.get(baseURL + 'genres/' + endpoint + '/page/' + str(page))
+    if (response.status_code == 404):
+        return None
+    data = response.text.replace(prox, baseURL).replace(proxq, "")
+    soup = BeautifulSoup(data, 'html.parser')
+    
+    obj = {}
+    
+    obj["url"] = request.build_absolute_uri()
+    
+    obj["data"] = []
+    mangas = soup.find_all("div", {"class": "animepost"})
+    for manga in mangas:
+        name = manga.find("a").get("title")
+        thumb = manga.find("img").get("src").split("?")[0]
+        link = {
+            'url': manga.find("a").get("href"),
+            'endpoint': manga.find("a").get("href").replace(baseURL, "").replace(proxq, "")
+        }
+        
+        obj["data"].append({ 'name': name, 'thumb': thumb, 'link': link })
+    
+    obj["pagination"] = []    
+    pagination = soup.find_all(class_="page-numbers")
+    for page in pagination:
+        name = page.text
+        url = page.get("href")
+        endpoint = None
+        if (url):
+            endpoint = url.replace(baseURL, "").replace(proxq, "")
+            
+        obj["pagination"].append({'name': name, 'url': url, 'endpoint': endpoint })
+    return obj
