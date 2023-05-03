@@ -1,3 +1,4 @@
 BeautifulSoup4==4.11.1
 Django==4.0.4
 requests==2.27.1
+django-cors-headers==3.10.0
